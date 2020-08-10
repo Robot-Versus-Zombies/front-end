@@ -4,8 +4,8 @@ Post zombie apocalypse. You are a makeshift robot built out of a roomba, a webca
 
 ## Built With
 
-- [React](https://reactjs.org/)
-- [SASS](https://sass-lang.com/)
+-   [React](https://reactjs.org/)
+-   [SASS](https://sass-lang.com/)
 
 ## Contributing
 
@@ -16,7 +16,6 @@ We're excited that you want to contribute! Read our guidelines [here](https://gi
 David Newberry - [paxfeline](https://github.com/paxfeline)
 
 Joscelyn Stancek - [JossWritesCode](https://github.com/JossWritesCode)
-
 
 ## License
 
