@@ -20,4 +20,4 @@ Joscelyn Stancek - [JossWritesCode](https://github.com/JossWritesCode)
 
 ## License
 
-This project is licensed under the MIT License
+This project is licensed under the [MIT License](https://github.com/Robot-Versus-Zombies/front-end/blob/master/LICENSE.md)
