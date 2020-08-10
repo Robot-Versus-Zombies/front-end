@@ -13,8 +13,10 @@ We're excited that you want to contribute! Read our guidelines [here](https://gi
 
 ## Authors
 
-[JossWritesCode](https://github.com/JossWritesCode)
-[paxfeline](https://github.com/paxfeline)
+David Newberry - [paxfeline](https://github.com/paxfeline)
+
+Joscelyn Stancek - [JossWritesCode](https://github.com/JossWritesCode)
+
 
 ## License
 
