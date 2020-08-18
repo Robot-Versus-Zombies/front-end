@@ -1,27 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Tile from './Tile';
-import Player from './Player';
+//import Player from './Player';
 
 function GameBoard() {
 	const width = 25;
 	const height = 25;
+	const [board, setBoard] = useState(null);
 
-	const tempBoard = [];
-	for (let i = 0; i < height; i++) {
-		const row = [];
-		for (let j = 0; i < width; i++) {
-			row.push(null);
+	useEffect(() => {
+		generateRooms();
+	}, []);
+
+	function generateRooms() {
+		const tempBoard = [];
+		for (let i = 0; i < height; i++) {
+			const row = [];
+			for (let j = 0; j < width; j++) {
+				row.push(null);
+			}
+			tempBoard.push(row);
 		}
-		tempBoard.push(row);
-	}
-	const [board, setBoard] = useState(tempBoard);
+		const wall = {
+			wall: true,
+		};
+		tempBoard[0][0] = wall;
 
+		setBoard(tempBoard);
+	}
+	console.log(board, 'board');
 	return (
-		<div>
-			{board.map((row, indexY) => (
-				<div>
+		<div className="game-board">
+			{board?.map((row, indexY) => (
+				<div key={indexY}>
 					{row.map((tile, indexX) => (
-						<Tile key={{ indexX, indexY }} tileData={tile} />
+						<Tile
+							key={JSON.stringify({ indexX, indexY })}
+							tileData={tile}
+						/>
 					))}
 				</div>
 			))}
