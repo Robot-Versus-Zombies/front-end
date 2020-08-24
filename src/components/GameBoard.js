@@ -31,7 +31,7 @@ function GameBoard() {
 	return (
 		<div className="game-board">
 			{board?.map((row, indexY) => (
-				<div key={indexY}>
+				<div className="board-row" key={indexY}>
 					{row.map((tile, indexX) => (
 						<Tile
 							key={JSON.stringify({ indexX, indexY })}

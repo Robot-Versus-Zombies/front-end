@@ -37,9 +37,31 @@
 	}
 }
 
-.tile {
-	width: 25px;
-	height: 25px;
+.game-board
+{
 	border: 1px solid black;
+	border-width: 0 1px 1px 0;
 	display: inline-block;
+}
+
+.board-row
+{
+	line-height: 0;
+    white-space: nowrap;
+}
+
+.tile {
+	width: 3em;
+	height: 3em;
+	/*border: 1px solid black;
+	border-width: 1px 0 0 1px;*/
+	display: inline-block;
+	background-size: cover;
+	/* default image: grass */
+	background-image: url('./images/grasssq.png');
+}
+
+.tile.wall
+{
+	background-image: url('./images/wallsq.png');
 }

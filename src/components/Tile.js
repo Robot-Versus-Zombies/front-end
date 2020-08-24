@@ -3,10 +3,7 @@ import React, { useState } from 'react';
 function Tile({ tileData }) {
 	return (
 		<div
-			className="tile"
-			style={{
-				backgroundColor: tileData && tileData.wall ? 'black' : 'white',
-			}}>
+			className={ `tile ${tileData && tileData.wall ? 'wall' : ''}` }>
 			{}
 		</div>
 	);
