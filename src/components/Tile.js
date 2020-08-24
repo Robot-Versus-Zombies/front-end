@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 function Tile({ tileData }) {
 	return (
-		<div
-			className={ `tile ${tileData && tileData.wall ? 'wall' : ''}` }>
+		<div className={`tile ${tileData && tileData.wall ? 'wall' : ''}`}>
 			{}
 		</div>
 	);
