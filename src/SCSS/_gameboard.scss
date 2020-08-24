@@ -1,0 +1,29 @@
+.game-board {
+	margin: 10rem auto;
+	border: 1px solid black;
+	border-width: 0 1px 1px 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	.board-row {
+		line-height: 0;
+		white-space: nowrap;
+
+		.tile {
+			width: 3em;
+			height: 3em;
+			/*border: 1px solid black;
+        border-width: 1px 0 0 1px;*/
+			display: inline-block;
+			background-size: cover;
+			/* default image: grass */
+			background-image: url('../images/RobotZombieGrass.png');
+		}
+
+		.wall {
+			background-image: url('../images/RobotZombieFloor.png');
+		}
+	}
+}
