@@ -1,25 +1,29 @@
 .game-board {
+	margin: 0 auto;
 	border: 1px solid black;
 	border-width: 0 1px 1px 0;
-	display: inline-block;
-}
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 
-.board-row {
-	line-height: 0;
-	white-space: nowrap;
+	.board-row {
+		line-height: 0;
+		white-space: nowrap;
 
-	.tile {
-		width: 3em;
-		height: 3em;
-		/*border: 1px solid black;
+		.tile {
+			width: 3em;
+			height: 3em;
+			/*border: 1px solid black;
         border-width: 1px 0 0 1px;*/
-		display: inline-block;
-		background-size: cover;
-		/* default image: grass */
-		background-image: url('../images/grasssq.png');
-	}
+			display: inline-block;
+			background-size: cover;
+			/* default image: grass */
+			background-image: url('../images/grasssq.png');
+		}
 
-	.wall {
-		background-image: url('../images/wallsq.png') !important;
+		.wall {
+			background-image: url('../images/wallsq.png') !important;
+		}
 	}
 }
