@@ -74,28 +74,27 @@ function GameBoard() {
 		// place player
 		do {
 			xLoc = Math.floor(Math.random() * boardWidth);
-
 			yLoc = Math.floor(Math.random() * boardHeight);
-		} while (boardHasConflict(tempBoard, xLoc, yLoc, 1, 1));
+		}
+		while (boardHasConflict(tempBoard, xLoc, yLoc, 1, 1));
+
 		setPlayerX(xLoc);
 		setPlayerY(yLoc);
-		console.log(xLoc, yLoc, 'xLoc yLoc');
+
 		setBoard(tempBoard);
 	}
 
 	function keyDown(event) {
-		console.log(playerY, 'playerY');
 		switch (event.key) {
 			case 'w':
-				setPlayerY(playerY - 1);
-
+				setPlayerY(curY => curY - 1);
 				break;
 			case 's':
-				setPlayerY(playerY + 1);
+				setPlayerY(curY => curY + 1);
 				break;
 		}
 	}
-	console.log(board, 'board');
+
 	return (
 		<div className="game-board">
 			<Player playerX={playerX} playerY={playerY} />
