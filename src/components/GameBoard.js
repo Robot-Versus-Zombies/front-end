@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Tile from './Tile';
 import Player from './Player';
 
@@ -19,8 +19,15 @@ function GameBoard() {
 
 	useEffect(() => {
 		generateRooms();
-		window.addEventListener('keydown', keyDown);
 	}, []);
+
+	const savedListener = useRef();
+
+	useEffect(() => {
+		window.removeEventListener('keydown', savedListener.current);
+		savedListener.current = keyDown;
+		window.addEventListener('keydown', keyDown);
+	}, [playerY, playerX]);
 
 	function boardHasConflict(board, x, y, width, height) {
 		for (let i = y; i < y + height; i++) {
@@ -87,10 +94,10 @@ function GameBoard() {
 	function keyDown(event) {
 		switch (event.key) {
 			case 'w':
-				setPlayerY(curY => curY - 1);
+				setPlayerY(playerY - 1);
 				break;
 			case 's':
-				setPlayerY(curY => curY + 1);
+				setPlayerY(playerY + 1);
 				break;
 		}
 	}
