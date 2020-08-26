@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Tile from './Tile';
 import Player from './Player';
 
@@ -17,30 +17,7 @@ function GameBoard() {
 		{ width: 8, height: 8 },
 	];
 
-	useEffect(() => {
-		generateRooms();
-	}, []);
-
-	const savedListener = useRef();
-
-	useEffect(() => {
-		window.removeEventListener('keydown', savedListener.current);
-		savedListener.current = keyDown;
-		window.addEventListener('keydown', keyDown);
-	}, [playerY, playerX]);
-
-	function boardHasConflict(board, x, y, width, height) {
-		for (let i = y; i < y + height; i++) {
-			for (let j = x; j < x + width; j++) {
-				if (board[i][j]) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	function generateRooms() {
+	const generateRooms = useCallback(() => {
 		const tempBoard = [];
 		// height
 		for (let i = 0; i < boardHeight; i++) {
@@ -58,14 +35,11 @@ function GameBoard() {
 		// populating board
 		let w, h, xLoc, yLoc;
 		for (let roomSize of roomSizes) {
-			console.log(roomSize, 'roomSize');
-
 			do {
 				w = roomSize.width;
 				h = roomSize.height;
 				let xNumber = boardWidth / w;
 				let yNumber = boardHeight / h;
-				console.log(xNumber, yNumber, 'xNumber, yNumber');
 
 				xLoc = Math.floor(Math.random() * xNumber) * w;
 
@@ -82,24 +56,60 @@ function GameBoard() {
 		do {
 			xLoc = Math.floor(Math.random() * boardWidth);
 			yLoc = Math.floor(Math.random() * boardHeight);
-		}
-		while (boardHasConflict(tempBoard, xLoc, yLoc, 1, 1));
+		} while (boardHasConflict(tempBoard, xLoc, yLoc, 1, 1));
 
 		setPlayerX(xLoc);
 		setPlayerY(yLoc);
 
 		setBoard(tempBoard);
-	}
+	}, []);
+	const savedListener = useRef();
 
-	function keyDown(event) {
-		switch (event.key) {
-			case 'w':
-				setPlayerY(playerY - 1);
-				break;
-			case 's':
-				setPlayerY(playerY + 1);
-				break;
+	const keyDown = useCallback(
+		(event) => {
+			switch (event.key) {
+				// move up
+				case 'w':
+					setPlayerY(playerY - 1);
+					break;
+				// move down
+				case 's':
+					setPlayerY(playerY + 1);
+					break;
+				// move left
+				case 'a':
+					setPlayerX(playerX - 1);
+					break;
+				// move right
+				case 'd':
+					setPlayerX(playerX + 1);
+					break;
+				default:
+					break;
+			}
+		},
+		[playerX, playerY],
+	);
+
+	useEffect(() => {
+		generateRooms();
+	}, [generateRooms]);
+
+	useEffect(() => {
+		window.removeEventListener('keydown', savedListener.current);
+		savedListener.current = keyDown;
+		window.addEventListener('keydown', keyDown);
+	}, [playerX, playerY, keyDown]);
+
+	function boardHasConflict(board, x, y, width, height) {
+		for (let i = y; i < y + height; i++) {
+			for (let j = x; j < x + width; j++) {
+				if (board[i][j]) {
+					return true;
+				}
+			}
 		}
+		return false;
 	}
 
 	return (
