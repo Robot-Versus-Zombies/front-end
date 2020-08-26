@@ -8,8 +8,8 @@ function GameBoard() {
 	const [board, setBoard] = useState(null);
 	const [playerX, setPlayerX] = useState(null);
 	const [playerY, setPlayerY] = useState(null);
-
-	const roomSizes = [
+	const roomSizes = useRef();
+	roomSizes.current = [
 		{ width: 16, height: 16 },
 		{ width: 16, height: 8 },
 		{ width: 16, height: 8 },
@@ -34,7 +34,7 @@ function GameBoard() {
 
 		// populating board
 		let w, h, xLoc, yLoc;
-		for (let roomSize of roomSizes) {
+		for (let roomSize of roomSizes.current) {
 			do {
 				w = roomSize.width;
 				h = roomSize.height;
@@ -62,7 +62,7 @@ function GameBoard() {
 		setPlayerY(yLoc);
 
 		setBoard(tempBoard);
-	}, []);
+	}, [roomSizes]);
 	const savedListener = useRef();
 
 	const keyDown = useCallback(
