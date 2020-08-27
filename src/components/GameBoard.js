@@ -46,12 +46,12 @@ function GameBoard() {
 				yLoc = Math.floor(Math.random() * yNumber) * h;
 			} while (boardHasConflict(tempBoard, xLoc, yLoc, w, h));
 
-			for (let i = yLoc; i < yLoc + h; i++) {
-				tempBoard[i][xLoc] = wall;
+			for (let i = yLoc + 1; i < yLoc + h; i++) {
+				tempBoard[i][xLoc + 1] = wall;
 				tempBoard[i][xLoc + w - 1] = wall;
 			}
-			for (let j = xLoc; j < xLoc + w; j++) {
-				tempBoard[yLoc][j] = wall;
+			for (let j = xLoc + 1; j < xLoc + w; j++) {
+				tempBoard[yLoc + 1][j] = wall;
 				tempBoard[yLoc + h - 1][j] = wall;
 			}
 		}
