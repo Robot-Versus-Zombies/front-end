@@ -47,9 +47,12 @@ function GameBoard() {
 			} while (boardHasConflict(tempBoard, xLoc, yLoc, w, h));
 
 			for (let i = yLoc; i < yLoc + h; i++) {
-				for (let j = xLoc; j < xLoc + w; j++) {
-					tempBoard[i][j] = wall;
-				}
+				tempBoard[i][xLoc] = wall;
+				tempBoard[i][xLoc + w - 1] = wall;
+			}
+			for (let j = xLoc; j < xLoc + w; j++) {
+				tempBoard[yLoc][j] = wall;
+				tempBoard[yLoc + h - 1][j] = wall;
 			}
 		}
 		// place player
