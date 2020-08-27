@@ -2,20 +2,20 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Tile from './Tile';
 import Player from './Player';
 
+const roomSizes = [
+	{ width: 16, height: 16 },
+	{ width: 16, height: 8 },
+	{ width: 16, height: 8 },
+	{ width: 8, height: 8 },
+	{ width: 8, height: 8 },
+];
+const boardWidth = 32;
+const boardHeight = 32;
+
 function GameBoard() {
-	const boardWidth = 32;
-	const boardHeight = 32;
 	const [board, setBoard] = useState(null);
 	const [playerX, setPlayerX] = useState(null);
 	const [playerY, setPlayerY] = useState(null);
-	const roomSizes = useRef();
-	roomSizes.current = [
-		{ width: 16, height: 16 },
-		{ width: 16, height: 8 },
-		{ width: 16, height: 8 },
-		{ width: 8, height: 8 },
-		{ width: 8, height: 8 },
-	];
 
 	const generateRooms = useCallback(() => {
 		const tempBoard = [];
@@ -34,7 +34,7 @@ function GameBoard() {
 
 		// populating board
 		let w, h, xLoc, yLoc;
-		for (let roomSize of roomSizes.current) {
+		for (let roomSize of roomSizes) {
 			do {
 				w = roomSize.width;
 				h = roomSize.height;
@@ -62,7 +62,7 @@ function GameBoard() {
 		setPlayerY(yLoc);
 
 		setBoard(tempBoard);
-	}, [roomSizes]);
+	}, []);
 	const savedListener = useRef();
 
 	const keyDown = useCallback(
