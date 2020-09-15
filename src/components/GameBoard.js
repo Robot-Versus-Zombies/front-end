@@ -65,8 +65,12 @@ function GameBoard() {
 		setPlayerY(yLoc);
 
 		setBoard(tempBoard);
-	}, []);
+
+	}, [roomSizes]);
+
+
 	const savedListener = useRef();
+
 
 	const keyDown = useCallback(
 		(event) => {
@@ -97,11 +101,12 @@ function GameBoard() {
 	useEffect(() => {
 		generateRooms();
 	}, [generateRooms]);
-
+	const savedListener = useRef();
 	useEffect(() => {
 		window.removeEventListener('keydown', savedListener.current);
 		savedListener.current = keyDown;
 		window.addEventListener('keydown', keyDown);
+		document.querySelector('.player-boundary').scrollIntoView();
 	}, [playerX, playerY, keyDown]);
 
 	function boardHasConflict(board, x, y, width, height) {
@@ -116,18 +121,20 @@ function GameBoard() {
 	}
 
 	return (
-		<div className="game-board">
-			<Player playerX={playerX} playerY={playerY} />
-			{board?.map((row, indexY) => (
-				<div className="board-row" key={indexY}>
-					{row.map((tile, indexX) => (
-						<Tile
-							key={JSON.stringify({ indexX, indexY })}
-							tileData={tile}
-						/>
-					))}
-				</div>
-			))}
+		<div className="game-board-container">
+			<div className="game-board">
+				<Player playerX={playerX} playerY={playerY} />
+				{board?.map((row, indexY) => (
+					<div className="board-row" key={indexY}>
+						{row.map((tile, indexX) => (
+							<Tile
+								key={JSON.stringify({ indexX, indexY })}
+								tileData={tile}
+							/>
+						))}
+					</div>
+				))}
+			</div>
 		</div>
 	);
 }
