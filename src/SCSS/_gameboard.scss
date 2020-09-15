@@ -1,30 +1,36 @@
-.game-board {
+.game-board-container {
+	width: 1000px;
+	height: 1000px;
+	text-align: center;
+	overflow: hidden;
 	margin: 10rem auto;
-	border: 1px solid black;
-	border-width: 0 1px 1px 0;
-	display: inline-block;
-	// flex-direction: column;
-	// justify-content: center;
-	// align-items: center;
-	position: relative;
+	.game-board {
+		border: 1px solid black;
+		border-width: 0 1px 1px 0;
+		display: inline-block;
+		// flex-direction: column;
+		// justify-content: center;
+		// align-items: center;
+		position: relative;
 
-	.board-row {
-		line-height: 0;
-		white-space: nowrap;
+		.board-row {
+			line-height: 0;
+			white-space: nowrap;
 
-		.tile {
-			width: 3em;
-			height: 3em;
-			/*border: 1px solid black;
+			.tile {
+				width: 3em;
+				height: 3em;
+				/*border: 1px solid black;
         border-width: 1px 0 0 1px;*/
-			display: inline-block;
-			background-size: cover;
-			/* default image: grass */
-			background-image: url('../images/RobotZombieGrass.png');
-		}
+				display: inline-block;
+				background-size: cover;
+				/* default image: grass */
+				background-image: url('../images/RobotZombieGrass.png');
+			}
 
-		.wall {
-			background-image: url('../images/RobotZombieFloor.png');
+			.wall {
+				background-image: url('../images/RobotZombieFloor.png');
+			}
 		}
 	}
 }

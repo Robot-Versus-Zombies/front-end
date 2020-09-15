@@ -46,10 +46,13 @@ function GameBoard() {
 				yLoc = Math.floor(Math.random() * yNumber) * h;
 			} while (boardHasConflict(tempBoard, xLoc, yLoc, w, h));
 
-			for (let i = yLoc; i < yLoc + h; i++) {
-				for (let j = xLoc; j < xLoc + w; j++) {
-					tempBoard[i][j] = wall;
-				}
+			for (let i = yLoc + 1; i < yLoc + h; i++) {
+				tempBoard[i][xLoc + 1] = wall;
+				tempBoard[i][xLoc + w - 1] = wall;
+			}
+			for (let j = xLoc + 1; j < xLoc + w; j++) {
+				tempBoard[yLoc + 1][j] = wall;
+				tempBoard[yLoc + h - 1][j] = wall;
 			}
 		}
 		// place player
@@ -63,7 +66,6 @@ function GameBoard() {
 
 		setBoard(tempBoard);
 	}, [roomSizes]);
-	const savedListener = useRef();
 
 	const keyDown = useCallback(
 		(event) => {
@@ -94,11 +96,12 @@ function GameBoard() {
 	useEffect(() => {
 		generateRooms();
 	}, [generateRooms]);
-
+	const savedListener = useRef();
 	useEffect(() => {
 		window.removeEventListener('keydown', savedListener.current);
 		savedListener.current = keyDown;
 		window.addEventListener('keydown', keyDown);
+		document.querySelector('.player-boundary').scrollIntoView();
 	}, [playerX, playerY, keyDown]);
 
 	function boardHasConflict(board, x, y, width, height) {
@@ -113,18 +116,20 @@ function GameBoard() {
 	}
 
 	return (
-		<div className="game-board">
-			<Player playerX={playerX} playerY={playerY} />
-			{board?.map((row, indexY) => (
-				<div className="board-row" key={indexY}>
-					{row.map((tile, indexX) => (
-						<Tile
-							key={JSON.stringify({ indexX, indexY })}
-							tileData={tile}
-						/>
-					))}
-				</div>
-			))}
+		<div className="game-board-container">
+			<div className="game-board">
+				<Player playerX={playerX} playerY={playerY} />
+				{board?.map((row, indexY) => (
+					<div className="board-row" key={indexY}>
+						{row.map((tile, indexX) => (
+							<Tile
+								key={JSON.stringify({ indexX, indexY })}
+								tileData={tile}
+							/>
+						))}
+					</div>
+				))}
+			</div>
 		</div>
 	);
 }
