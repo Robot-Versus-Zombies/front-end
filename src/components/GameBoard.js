@@ -65,12 +65,9 @@ function GameBoard() {
 		setPlayerY(yLoc);
 
 		setBoard(tempBoard);
-
 	}, [roomSizes]);
 
-
 	const savedListener = useRef();
-
 
 	const keyDown = useCallback(
 		(event) => {
@@ -101,7 +98,7 @@ function GameBoard() {
 	useEffect(() => {
 		generateRooms();
 	}, [generateRooms]);
-	const savedListener = useRef();
+
 	useEffect(() => {
 		window.removeEventListener('keydown', savedListener.current);
 		savedListener.current = keyDown;
