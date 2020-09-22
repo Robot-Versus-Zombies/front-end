@@ -46,6 +46,7 @@ function GameBoard() {
 				yLoc = Math.floor(Math.random() * yNumber) * h;
 			} while (boardHasConflict(tempBoard, xLoc, yLoc, w, h));
 
+			// generates the walls/outline of the rooms
 			for (let i = yLoc + 1; i < yLoc + h; i++) {
 				tempBoard[i][xLoc + 1] = wall;
 				tempBoard[i][xLoc + w - 1] = wall;
@@ -103,7 +104,17 @@ function GameBoard() {
 		window.removeEventListener('keydown', savedListener.current);
 		savedListener.current = keyDown;
 		window.addEventListener('keydown', keyDown);
-		document.querySelector('.player-boundary').scrollIntoView();
+
+		let boardEl = document.querySelector('.game-board-container');
+		let scrollX = playerX * 42 - 500;
+		scrollX = Math.max(scrollX, 0);
+		scrollX = Math.min(scrollX, 42 * boardWidth - 1000);
+
+		let scrollY = playerY * 42 - 500;
+		scrollY = Math.max(scrollY, 0);
+		scrollY = Math.min(scrollY, 42 * boardHeight - 1000);
+		console.log(scrollX, scrollY, 'scroll coordinates');
+		boardEl.scroll(scrollX, scrollY);
 	}, [playerX, playerY, keyDown]);
 
 	function boardHasConflict(board, x, y, width, height) {

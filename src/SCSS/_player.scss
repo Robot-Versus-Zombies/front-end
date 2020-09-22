@@ -4,12 +4,4 @@
 	background-size: cover;
 	background-image: url('../images/PlayerFront.png');
 	position: absolute;
-
-	.player-boundary {
-		position: absolute;
-		width: 100vw;
-		height: 100vh;
-		top: calc(-50vh + 21px);
-		left: calc(-50vw + 21px);
-	}
 }
