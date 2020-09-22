@@ -80,7 +80,7 @@ function GameBoard() {
 		setPlayerY(yLoc);
 
 		setBoard(tempBoard);
-	}, [roomSizes]);
+	}, []);
 
 	const savedListener = useRef();
 
@@ -118,7 +118,7 @@ function GameBoard() {
 				setPlayerY(y);
 			}
 		},
-		[playerX, playerY],
+		[playerX, playerY, board],
 	);
 
 	useEffect(() => {
