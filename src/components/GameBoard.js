@@ -9,8 +9,8 @@ const roomSizes = [
 	{ width: 8, height: 8 },
 	{ width: 8, height: 8 },
 ];
-const boardWidth = 32;
-const boardHeight = 32;
+const boardWidth = 35; // = 32 + 1 walkway + 2 border
+const boardHeight = 35;
 
 function GameBoard() {
 	const [board, setBoard] = useState(null);
@@ -31,6 +31,15 @@ function GameBoard() {
 		const wall = {
 			wall: true,
 		};
+
+		for (let i = 0; i < boardHeight; i++) {
+			tempBoard[i][0] = wall;
+			tempBoard[i][boardWidth - 1] = wall;
+		}
+		for (let j = 0; j < boardWidth; j++) {
+			tempBoard[0][j] = wall;
+			tempBoard[boardHeight - 1][j] = wall;
+		}
 
 		// populating board
 		let w, h, xLoc, yLoc;
