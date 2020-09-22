@@ -3,11 +3,11 @@ import Tile from './Tile';
 import Player from './Player';
 
 const roomSizes = [
-	{ width: 16, height: 16 },
-	{ width: 16, height: 8 },
-	{ width: 16, height: 8 },
-	{ width: 8, height: 8 },
-	{ width: 8, height: 8 },
+	{ width: 16, height: 16, door: { x: 8, y: 15 } },
+	{ width: 16, height: 8, door: { x: 8, y: 7 } },
+	{ width: 16, height: 8, door: { x: 8, y: 7 } },
+	{ width: 8, height: 8, door: { x: 4, y: 7 } },
+	{ width: 8, height: 8, door: { x: 4, y: 7 } },
 ];
 const boardWidth = 35; // = 32 + 1 walkway + 2 border
 const boardHeight = 35;
@@ -47,12 +47,12 @@ function GameBoard() {
 			do {
 				w = roomSize.width;
 				h = roomSize.height;
-				let xNumber = boardWidth / w;
-				let yNumber = boardHeight / h;
+				let xNumber = (boardWidth - 3) / w;
+				let yNumber = (boardHeight - 3) / h;
 
-				xLoc = Math.floor(Math.random() * xNumber) * w;
+				xLoc = Math.floor(Math.random() * xNumber) * w + 1;
 
-				yLoc = Math.floor(Math.random() * yNumber) * h;
+				yLoc = Math.floor(Math.random() * yNumber) * h + 1;
 			} while (boardHasConflict(tempBoard, xLoc, yLoc, w, h));
 
 			// generates the walls/outline of the rooms
@@ -63,6 +63,11 @@ function GameBoard() {
 			for (let j = xLoc + 1; j < xLoc + w; j++) {
 				tempBoard[yLoc + 1][j] = wall;
 				tempBoard[yLoc + h - 1][j] = wall;
+			}
+			if (roomSize.door) {
+				tempBoard[roomSize.door.y + yLoc][
+					roomSize.door.x + xLoc
+				] = null;
 			}
 		}
 		// place player
@@ -81,25 +86,36 @@ function GameBoard() {
 
 	const keyDown = useCallback(
 		(event) => {
+			let x = playerX;
+			let y = playerY;
+
 			switch (event.key) {
 				// move up
 				case 'w':
-					setPlayerY(playerY - 1);
+					y -= 1;
+
 					break;
 				// move down
 				case 's':
-					setPlayerY(playerY + 1);
+					y += 1;
+
 					break;
 				// move left
 				case 'a':
-					setPlayerX(playerX - 1);
+					x -= 1;
+
 					break;
 				// move right
 				case 'd':
-					setPlayerX(playerX + 1);
+					x += 1;
+
 					break;
 				default:
 					break;
+			}
+			if (!board[y][x]) {
+				setPlayerX(x);
+				setPlayerY(y);
 			}
 		},
 		[playerX, playerY],
@@ -122,7 +138,7 @@ function GameBoard() {
 		let scrollY = playerY * 42 - 500;
 		scrollY = Math.max(scrollY, 0);
 		scrollY = Math.min(scrollY, 42 * boardHeight - 1000);
-		console.log(scrollX, scrollY, 'scroll coordinates');
+
 		boardEl.scroll(scrollX, scrollY);
 	}, [playerX, playerY, keyDown]);
 
