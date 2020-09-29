@@ -12,7 +12,7 @@ const roomSizes = [
 const boardWidth = 35; // = 32 + 1 walkway + 2 border
 const boardHeight = 35;
 
-function GameBoard() {
+function GameBoard({ muted }) {
 	const [board, setBoard] = useState(null);
 	const [playerX, setPlayerX] = useState(null);
 	const [playerY, setPlayerY] = useState(null);
@@ -116,13 +116,27 @@ function GameBoard() {
 			if (!board[y][x]) {
 				setPlayerX(x);
 				setPlayerY(y);
+				if (!walkAudio.current.ended) {
+					walkAudio.current.currentTime = 0;
+				}
+				walkAudio.current.play();
+			} else {
+				whoops.current.play();
 			}
 		},
 		[playerX, playerY, board],
 	);
-
+	const walkAudio = useRef();
+	const whoops = useRef();
 	useEffect(() => {
 		generateRooms();
+
+		walkAudio.current = new Audio(
+			'https://robot-versus-zombies.github.io/sounds/07%20Step01.wav',
+		);
+		whoops.current = new Audio(
+			'https://robot-versus-zombies.github.io/sounds/06%20Swing%20n%20Miss.wav',
+		);
 	}, [generateRooms]);
 
 	useEffect(() => {
@@ -141,6 +155,14 @@ function GameBoard() {
 
 		boardEl.scroll(scrollX, scrollY);
 	}, [playerX, playerY, keyDown]);
+
+	useEffect(() => {
+		if (muted) {
+			walkAudio.current.volume = 0;
+		} else {
+			walkAudio.current.volume = 1;
+		}
+	}, [muted]);
 
 	function boardHasConflict(board, x, y, width, height) {
 		for (let i = y; i < y + height; i++) {
