@@ -44,7 +44,7 @@ function GameBoard({ muted }) {
 		}
 	}
 
-	function createRoom(tempBoard, roomSize) {
+	const createRoom = useCallback((tempBoard, roomSize) => {
 		const wall = new WallTile();
 		let w, h, xLoc, yLoc;
 		do {
@@ -77,7 +77,7 @@ function GameBoard({ muted }) {
 		if (roomSize.door) {
 			tempBoard[roomSize.door.y + yLoc][roomSize.door.x + xLoc] = null;
 		}
-	}
+	}, []);
 
 	const generateRooms = useCallback(() => {
 		const tempBoard = [];
@@ -105,7 +105,7 @@ function GameBoard({ muted }) {
 		}
 
 		setBoard(tempBoard);
-	}, []);
+	}, [createRoom]);
 
 	const savedListener = useRef();
 
@@ -200,7 +200,7 @@ function GameBoard({ muted }) {
 		scrollY = Math.min(scrollY, 42 * boardHeight - 1000);
 
 		boardEl.scroll(scrollX, scrollY);
-	}, [playerX, playerY, keyDown]);
+	}, [playerX, playerY, keyDown, isInside, board]);
 
 	useEffect(() => {
 		if (isInside) {
