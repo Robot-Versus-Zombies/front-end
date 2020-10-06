@@ -2,6 +2,10 @@
 
 Post zombie apocalypse. You are a makeshift robot built out of a roomba, a webcam, and a few other doodads. You have been sent into a zombie infested mall to collect supplies for the survivors.
 
+Play the game here: https://robot-vs-zombies.netlify.app/
+
+Watch all the episodes of our live stream here: https://dev.to/josswritescode
+
 ## Built With
 
 -   [React](https://reactjs.org/)
