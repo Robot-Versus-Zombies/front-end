@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useLocalStorage } from './hooks/useLocalStorage'
 import GameBoard from './components/GameBoard';
 import Header from './components/Header';
 import Mute from './images/volume_off-24px.svg';
@@ -6,7 +7,7 @@ import Unmute from './images/volume_up-24px.svg';
 import './SCSS/main.scss';
 
 function App() {
-	const [muted, setMuted] = useState(true);
+	const [muted, setMuted] = useLocalStorage(true);
 	return (
 		<div className="App">
 			<Header />
