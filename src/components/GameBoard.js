@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Tile from './Tile';
 import Player from './Player';
-import { WallTile, BuildingTile } from '../utils/tileClass';
+import { BuildingTile } from '../utils/tileClass';
+import { createWalls } from '../utils/createWalls';
 
 const roomSizes = [
 	{ width: 16, height: 16, door: { x: 8, y: 15 } },
@@ -19,7 +20,7 @@ function GameBoard({ muted }) {
 	const [playerY, setPlayerY] = useState(null);
 	const [isInside, setIsInside] = useState(null);
 
-	function createBoard(tempBoard) {
+	const createBoard = useCallback((tempBoard) => {
 		// creates 2d array that will make up the board
 		for (let i = 0; i < boardHeight; i++) {
 			const row = [];
@@ -30,22 +31,11 @@ function GameBoard({ muted }) {
 			tempBoard.push(row);
 		}
 
-		//creating a walltile object
-		const wall = new WallTile();
-
 		// drawing the border with walltiles
-		for (let i = 0; i < boardHeight; i++) {
-			tempBoard[i][0] = wall;
-			tempBoard[i][boardWidth - 1] = wall;
-		}
-		for (let j = 0; j < boardWidth; j++) {
-			tempBoard[0][j] = wall;
-			tempBoard[boardHeight - 1][j] = wall;
-		}
-	}
+		tempBoard = createWalls(tempBoard, 0, boardWidth, 0, boardHeight);
+	}, []);
 
 	const createRoom = useCallback((tempBoard, roomSize) => {
-		const wall = new WallTile();
 		let w, h, xLoc, yLoc;
 		do {
 			w = roomSize.width;
@@ -66,16 +56,15 @@ function GameBoard({ muted }) {
 		}
 
 		// generates the walls/outline of the rooms
-		for (let i = yLoc + 1; i < yLoc + h; i++) {
-			tempBoard[i][xLoc + 1] = wall;
-			tempBoard[i][xLoc + w - 1] = wall;
-		}
-		for (let j = xLoc + 1; j < xLoc + w; j++) {
-			tempBoard[yLoc + 1][j] = wall;
-			tempBoard[yLoc + h - 1][j] = wall;
-		}
+		tempBoard = createWalls(
+			tempBoard,
+			xLoc + 1,
+			xLoc + w,
+			yLoc + 1,
+			yLoc + h,
+		);
 		if (roomSize.door) {
-			tempBoard[roomSize.door.y + yLoc][roomSize.door.x + xLoc] = null;
+			tempBoard[roomSize.door.y + yLoc][roomSize.door.x + xLoc] = building;
 		}
 	}, []);
 
@@ -105,7 +94,7 @@ function GameBoard({ muted }) {
 		}
 
 		setBoard(tempBoard);
-	}, [createRoom]);
+	}, [createRoom, createBoard]);
 
 	const savedListener = useRef();
 

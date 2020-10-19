@@ -10,7 +10,28 @@
 	background-image: url('../images/RobotZombieGrass.png');
     
     &.wall {
-        background-image: url('../images/RobotZombieWall.png');
+		// background-image: url('../images/RobotZombieWall.png');
+		
+		&.straight {
+			background-image: url('../images/RobotZombieWallStraight.png');
+			
+			&.horizontal {
+				transform: rotate(90deg);
+			}
+		}
+		&.corner {
+			background-image: url('../images/RobotZombieWallCorner.png');
+
+			&.bottom-left {
+				transform: rotate(90deg);
+			}
+			&.top-right {
+				transform: rotate(-90deg);
+			}
+			&.top-left {
+				transform: rotate(180deg)
+			}
+		}
 	}
 	&.floor {
 		background-image: url('../images/RobotZombieFloor.png');
