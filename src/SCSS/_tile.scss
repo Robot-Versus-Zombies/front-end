@@ -1,0 +1,19 @@
+.tile {
+    box-sizing: border-box;
+	width: 3em;
+	height: 3em;
+	// border: 1px solid black;
+    // border-width: 1px 0 0 1px;
+	display: inline-block;
+	background-size: cover;
+	// default image: grass
+	background-image: url('../images/RobotZombieGrass.png');
+    
+    &.wall {
+        background-image: url('../images/RobotZombieWall.png');
+	}
+	&.floor {
+		background-image: url('../images/RobotZombieFloor.png');
+	}
+}
+
