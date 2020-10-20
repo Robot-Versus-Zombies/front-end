@@ -22,14 +22,14 @@ function GameBoard({ muted }) {
 
 	// helper functions
 
-	function randomlyPlace(tempBoard) {
+	const randomlyPlace = useCallback((tempBoard) => {
 		let xLoc, yLoc;
 		do {
 			xLoc = Math.floor(Math.random() * boardWidth);
 			yLoc = Math.floor(Math.random() * boardHeight);
 		} while (boardHasConflict(tempBoard, xLoc, yLoc, 1, 1));
 		return [xLoc, yLoc];
-	}
+	}, []);
 
 	function boardHasConflict(board, x, y, width, height) {
 		for (let i = y; i < y + height; i++) {
@@ -133,7 +133,7 @@ function GameBoard({ muted }) {
 		tempBoard[yLoc][xLoc] = grassTile;
 
 		setBoard(tempBoard);
-	}, [createRoom]);
+	}, [createRoom, randomlyPlace]);
 
 	const savedListener = useRef();
 
