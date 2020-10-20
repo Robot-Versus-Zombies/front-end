@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocalStorage } from './hooks/useLocalStorage'
+import { useLocalStorage } from './hooks/useLocalStorage';
 import GameBoard from './components/GameBoard';
 import Header from './components/Header';
 import Mute from './images/volume_off-24px.svg';
