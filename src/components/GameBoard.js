@@ -4,8 +4,7 @@ import Player from './Player';
 
 import { createWalls } from '../utils/createWalls';
 
-
-import { WallTile, BuildingTile, GrassTile } from '../utils/tileClass';
+import { BuildingTile, GrassTile } from '../utils/tileClass';
 import { KeyItem } from '../utils/itemClass';
 
 const roomSizes = [
@@ -24,7 +23,6 @@ function GameBoard({ muted }) {
 	const [playerX, setPlayerX] = useState(null);
 	const [playerY, setPlayerY] = useState(null);
 	const [isInside, setIsInside] = useState(null);
-
 
 	// helper functions
 
@@ -47,8 +45,7 @@ function GameBoard({ muted }) {
 		}
 		return false;
 	}
-const createBoard = useCallback((tempBoard) => {
-
+	const createBoard = useCallback((tempBoard) => {
 		// creates 2d array that will make up the board
 		for (let i = 0; i < boardHeight; i++) {
 			const row = [];
@@ -62,7 +59,7 @@ const createBoard = useCallback((tempBoard) => {
 		// drawing the border with walltiles
 		tempBoard = createWalls(tempBoard, 0, boardWidth, 0, boardHeight);
 
-		setBoard( tempBoard );
+		setBoard(tempBoard);
 	}, []);
 
 	const createRoom = useCallback((tempBoard, roomSize) => {
@@ -94,7 +91,9 @@ const createBoard = useCallback((tempBoard) => {
 			yLoc + h,
 		);
 		if (roomSize.door) {
-			tempBoard[roomSize.door.y + yLoc][roomSize.door.x + xLoc] = building;
+			tempBoard[roomSize.door.y + yLoc][
+				roomSize.door.x + xLoc
+			] = building;
 		}
 	}, []);
 
@@ -128,9 +127,7 @@ const createBoard = useCallback((tempBoard) => {
 		const key = new KeyItem();
 		grassTile.item = key;
 		tempBoard[yLoc][xLoc] = grassTile;
-
 	}, [createRoom, createBoard, randomlyPlace]);
-
 
 	const savedListener = useRef();
 
