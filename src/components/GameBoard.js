@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Tile from './Tile';
 import Player from './Player';
 
-import { BuildingTile } from '../utils/tileClass';
 import { createWalls } from '../utils/createWalls';
 
 
@@ -62,6 +61,8 @@ const createBoard = useCallback((tempBoard) => {
 
 		// drawing the border with walltiles
 		tempBoard = createWalls(tempBoard, 0, boardWidth, 0, boardHeight);
+
+		setBoard( tempBoard );
 	}, []);
 
 	const createRoom = useCallback((tempBoard, roomSize) => {
