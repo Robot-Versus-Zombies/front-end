@@ -6,7 +6,17 @@ function Tile({ tileData }) {
 	if (tileData instanceof WallTile) cssClasses += 'wall ' + tileData.wallType;
 	if (tileData instanceof BuildingTile) cssClasses += 'floor ';
 
-	return <div className={cssClasses}>{}</div>;
+	return (
+		<div className={cssClasses}>
+			{tileData?.item?.image ? (
+				<img
+					className="key-item"
+					src={tileData.item.image}
+					alt={tileData.item.alt}
+				/>
+			) : null}
+		</div>
+	);
 }
 
 export default Tile;

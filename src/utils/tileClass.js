@@ -23,4 +23,6 @@ export class WallTile extends TileClass {
 	}
 }
 
+export class GrassTile extends TileClass {}
+
 export class BuildingTile extends TileClass {}

@@ -1,8 +1,13 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Tile from './Tile';
 import Player from './Player';
+
 import { BuildingTile } from '../utils/tileClass';
 import { createWalls } from '../utils/createWalls';
+
+
+import { WallTile, BuildingTile, GrassTile } from '../utils/tileClass';
+import { KeyItem } from '../utils/itemClass';
 
 const roomSizes = [
 	{ width: 16, height: 16, door: { x: 8, y: 15 } },
@@ -15,12 +20,36 @@ const boardWidth = 35; // = 32 + 1 walkway + 2 border
 const boardHeight = 35;
 
 function GameBoard({ muted }) {
+	// state variables
 	const [board, setBoard] = useState(null);
 	const [playerX, setPlayerX] = useState(null);
 	const [playerY, setPlayerY] = useState(null);
 	const [isInside, setIsInside] = useState(null);
 
-	const createBoard = useCallback((tempBoard) => {
+
+	// helper functions
+
+	const randomlyPlace = useCallback((tempBoard) => {
+		let xLoc, yLoc;
+		do {
+			xLoc = Math.floor(Math.random() * boardWidth);
+			yLoc = Math.floor(Math.random() * boardHeight);
+		} while (boardHasConflict(tempBoard, xLoc, yLoc, 1, 1));
+		return [xLoc, yLoc];
+	}, []);
+
+	function boardHasConflict(board, x, y, width, height) {
+		for (let i = y; i < y + height; i++) {
+			for (let j = x; j < x + width; j++) {
+				if (board[i][j]) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+const createBoard = useCallback((tempBoard) => {
+
 		// creates 2d array that will make up the board
 		for (let i = 0; i < boardHeight; i++) {
 			const row = [];
@@ -78,11 +107,7 @@ function GameBoard({ muted }) {
 			createRoom(tempBoard, roomSize);
 		}
 		// place player
-		let xLoc, yLoc;
-		do {
-			xLoc = Math.floor(Math.random() * boardWidth);
-			yLoc = Math.floor(Math.random() * boardHeight);
-		} while (boardHasConflict(tempBoard, xLoc, yLoc, 1, 1));
+		let [xLoc, yLoc] = randomlyPlace(tempBoard);
 
 		setPlayerX(xLoc);
 		setPlayerY(yLoc);
@@ -93,8 +118,18 @@ function GameBoard({ muted }) {
 			setIsInside(false);
 		}
 
-		setBoard(tempBoard);
-	}, [createRoom, createBoard]);
+		// place key
+
+		[xLoc, yLoc] = randomlyPlace(tempBoard);
+
+		const grassTile = new GrassTile();
+
+		const key = new KeyItem();
+		grassTile.item = key;
+		tempBoard[yLoc][xLoc] = grassTile;
+
+	}, [createRoom, createBoard, randomlyPlace]);
+
 
 	const savedListener = useRef();
 
@@ -210,17 +245,6 @@ function GameBoard({ muted }) {
 			beepBoop.current.volume = 1;
 		}
 	}, [muted]);
-
-	function boardHasConflict(board, x, y, width, height) {
-		for (let i = y; i < y + height; i++) {
-			for (let j = x; j < x + width; j++) {
-				if (board[i][j]) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
 
 	return (
 		<div className="game-board-container">
