@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Tile from './Tile';
 import Player from './Player';
+import Inventory from './Inventory';
 
 import { createWalls } from '../utils/createWalls';
 
@@ -23,6 +24,7 @@ function GameBoard({ muted }) {
 	const [playerX, setPlayerX] = useState(null);
 	const [playerY, setPlayerY] = useState(null);
 	const [isInside, setIsInside] = useState(null);
+	const [items, setItems] = useState([]);
 
 	// helper functions
 
@@ -212,6 +214,21 @@ function GameBoard({ muted }) {
 			setIsInside(false);
 		}
 
+		// check for items
+		if (
+			board &&
+			board[playerY][playerX]?.item
+		) {
+			const tempBoard = [ ...board ];
+			const item = tempBoard[playerY][playerX].item;
+			//tempBoard[playerY][playerX] = { ...tempBoard[playerY][playerX] };
+			tempBoard[playerY][playerX].item = null;
+			setBoard( tempBoard );
+
+			const tempInv = [ ...items, item ];
+			setItems( tempInv );
+		}
+
 		let boardEl = document.querySelector('.game-board-container');
 		let scrollX = playerX * 42 - 500;
 		scrollX = Math.max(scrollX, 0);
@@ -245,6 +262,7 @@ function GameBoard({ muted }) {
 	}, [muted]);
 
 	return (
+		<React.Fragment>
 		<div className="game-board-container">
 			<div className="game-board">
 				<Player playerX={playerX} playerY={playerY} />
@@ -260,6 +278,9 @@ function GameBoard({ muted }) {
 				))}
 			</div>
 		</div>
+		<Inventory items={items} />
+
+		</React.Fragment>
 	);
 }
 
