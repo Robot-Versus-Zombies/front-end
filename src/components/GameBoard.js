@@ -215,18 +215,15 @@ function GameBoard({ muted }) {
 		}
 
 		// check for items
-		if (
-			board &&
-			board[playerY][playerX]?.item
-		) {
-			const tempBoard = [ ...board ];
+		if (board && board[playerY][playerX]?.item) {
+			const tempBoard = [...board];
 			const item = tempBoard[playerY][playerX].item;
 			//tempBoard[playerY][playerX] = { ...tempBoard[playerY][playerX] };
 			tempBoard[playerY][playerX].item = null;
-			setBoard( tempBoard );
+			setBoard(tempBoard);
 
-			const tempInv = [ ...items, item ];
-			setItems( tempInv );
+			const tempInv = [...items, item];
+			setItems(tempInv);
 		}
 
 		let boardEl = document.querySelector('.game-board-container');
@@ -239,7 +236,7 @@ function GameBoard({ muted }) {
 		scrollY = Math.min(scrollY, 42 * boardHeight - 1000);
 
 		boardEl.scroll(scrollX, scrollY);
-	}, [playerX, playerY, keyDown, isInside, board]);
+	}, [playerX, playerY, keyDown, isInside, board, items]);
 
 	useEffect(() => {
 		if (isInside) {
@@ -263,23 +260,22 @@ function GameBoard({ muted }) {
 
 	return (
 		<React.Fragment>
-		<div className="game-board-container">
-			<div className="game-board">
-				<Player playerX={playerX} playerY={playerY} />
-				{board?.map((row, indexY) => (
-					<div className="board-row" key={indexY}>
-						{row.map((tile, indexX) => (
-							<Tile
-								key={JSON.stringify({ indexX, indexY })}
-								tileData={tile}
-							/>
-						))}
-					</div>
-				))}
+			<div className="game-board-container">
+				<div className="game-board">
+					<Player playerX={playerX} playerY={playerY} />
+					{board?.map((row, indexY) => (
+						<div className="board-row" key={indexY}>
+							{row.map((tile, indexX) => (
+								<Tile
+									key={JSON.stringify({ indexX, indexY })}
+									tileData={tile}
+								/>
+							))}
+						</div>
+					))}
+				</div>
 			</div>
-		</div>
-		<Inventory items={items} />
-
+			<Inventory items={items} />
 		</React.Fragment>
 	);
 }
