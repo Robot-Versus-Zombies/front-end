@@ -1,26 +1,26 @@
 .tile {
-    box-sizing: border-box;
+	box-sizing: border-box;
 	width: 3em;
 	height: 3em;
 	// border: 1px solid black;
-    // border-width: 1px 0 0 1px;
+	// border-width: 1px 0 0 1px;
 	display: inline-block;
 	background-size: cover;
 	// default image: grass
-	background-image: url('../images/RobotZombieGrass.png');
-    
-    &.wall {
+	background-image: url('../images/RobotZombieGrass_Dark.png');
+
+	&.wall {
 		// background-image: url('../images/RobotZombieWall.png');
-		
+
 		&.straight {
-			background-image: url('../images/RobotZombieWallStraight.png');
-			
+			background-image: url('../images/RobotZombieWallStraight.png') !important;
+
 			&.horizontal {
 				transform: rotate(90deg);
 			}
 		}
 		&.corner {
-			background-image: url('../images/RobotZombieWallCorner.png');
+			background-image: url('../images/RobotZombieWallCorner.png') !important;
 
 			&.bottom-left {
 				transform: rotate(90deg);
@@ -29,12 +29,11 @@
 				transform: rotate(-90deg);
 			}
 			&.top-left {
-				transform: rotate(180deg)
+				transform: rotate(180deg);
 			}
 		}
 	}
 	&.floor {
-		background-image: url('../images/RobotZombieFloor.png');
+		background-image: url('../images/RobotZombieFloor.png') !important;
 	}
 }
-
