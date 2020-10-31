@@ -19,6 +19,7 @@ const boardWidth = 35; // = 32 + 1 walkway + 2 border
 const boardHeight = 35;
 
 function GameBoard({ muted }) {
+	let randomNumber = Math.floor(Math.random() * Math.floor(2));
 	// state variables
 	const [board, setBoard] = useState(null);
 	const [playerX, setPlayerX] = useState(null);
@@ -267,6 +268,7 @@ function GameBoard({ muted }) {
 						<div className="board-row" key={indexY}>
 							{row.map((tile, indexX) => (
 								<Tile
+									randomNumber={randomNumber}
 									key={JSON.stringify({ indexX, indexY })}
 									tileData={tile}
 								/>
