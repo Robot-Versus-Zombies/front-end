@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { BuildingTile, WallTile } from '../utils/tileClass';
 import DarkGreenTile from '../images/RobotZombieGrass_Dark.png';
 import DarkGreenFlowerTile from '../images/RobotZombieGrass_DarkFlower.png';
@@ -6,12 +6,18 @@ function Tile({ tileData }) {
 	let cssClasses = 'tile ';
 	if (tileData instanceof WallTile) cssClasses += 'wall ' + tileData.wallType;
 	if (tileData instanceof BuildingTile) cssClasses += 'floor ';
-	let randomNumber = Math.floor(Math.random() * Math.floor(2));
+
+	function makeRandomNumber() {
+		let randomNumber = Math.floor(Math.random() * Math.floor(2));
+		return randomNumber;
+	}
+	const memoizedRandomNumber = useMemo(() => makeRandomNumber(), []);
+
 	return (
 		<div
 			className={cssClasses}
 			style={
-				randomNumber
+				memoizedRandomNumber
 					? { backgroundImage: `url(${DarkGreenTile})` }
 					: { backgroundImage: `url(${DarkGreenFlowerTile})` }
 			}>
