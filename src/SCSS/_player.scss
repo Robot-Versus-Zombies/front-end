@@ -2,6 +2,22 @@
 	width: 42px;
 	height: 42px;
 	background-size: cover;
-	background-image: url('../images/PlayerFront.png');
+
 	position: absolute;
+}
+
+.player-0 {
+	background-image: url('../images/PlayerBack.png');
+}
+
+.player-1 {
+	background-image: url('../images/PlayerSide1.png');
+}
+
+.player-2 {
+	background-image: url('../images/PlayerFront.png');
+}
+
+.player-3 {
+	background-image: url('../images/PlayerSide1.png');
 }

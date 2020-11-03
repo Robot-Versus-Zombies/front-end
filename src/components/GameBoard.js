@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Tile from './Tile';
 import Player from './Player';
 import Inventory from './Inventory';
-
+import { Directions } from '../utils/directions';
 import { createWalls } from '../utils/createWalls';
 
 import { BuildingTile, GrassTile } from '../utils/tileClass';
@@ -26,6 +26,7 @@ function GameBoard({ muted }) {
 	const [playerY, setPlayerY] = useState(null);
 	const [isInside, setIsInside] = useState(null);
 	const [items, setItems] = useState([]);
+	const [direction, setDirection] = useState(Directions.South);
 
 	// helper functions
 
@@ -142,23 +143,37 @@ function GameBoard({ muted }) {
 			switch (event.key) {
 				// move up
 				case 'w':
-					y -= 1;
+					if (direction !== Directions.North) {
+						setDirection(Directions.North);
+					} else {
+						y -= 1;
+					}
 
 					break;
 				// move down
 				case 's':
-					y += 1;
-
+					if (direction !== Directions.South) {
+						setDirection(Directions.South);
+					} else {
+						y += 1;
+					}
 					break;
 				// move left
 				case 'a':
-					x -= 1;
+					if (direction !== Directions.West) {
+						setDirection(Directions.West);
+					} else {
+						x -= 1;
+					}
 
 					break;
 				// move right
 				case 'd':
-					x += 1;
-
+					if (direction !== Directions.East) {
+						setDirection(Directions.East);
+					} else {
+						x += 1;
+					}
 					break;
 				default:
 					break;
@@ -174,7 +189,7 @@ function GameBoard({ muted }) {
 				whoops.current.play();
 			}
 		},
-		[playerX, playerY, board],
+		[playerX, playerY, board, direction],
 	);
 	const walkAudio = useRef();
 	const whoops = useRef();
@@ -263,7 +278,11 @@ function GameBoard({ muted }) {
 		<React.Fragment>
 			<div className="game-board-container">
 				<div className="game-board">
-					<Player playerX={playerX} playerY={playerY} />
+					<Player
+						direction={direction}
+						playerX={playerX}
+						playerY={playerY}
+					/>
 					{board?.map((row, indexY) => (
 						<div className="board-row" key={indexY}>
 							{row.map((tile, indexX) => (
