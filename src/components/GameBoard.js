@@ -18,13 +18,13 @@ const roomSizes = [
 const boardWidth = 35; // = 32 + 1 walkway + 2 border
 const boardHeight = 35;
 
-function GameBoard({ muted }) {
+const GameBoard = ({ isMuted }) => {
 	let randomNumber = Math.floor(Math.random() * Math.floor(2));
 	// state variables
-	const [board, setBoard] = useState(null);
-	const [playerX, setPlayerX] = useState(null);
-	const [playerY, setPlayerY] = useState(null);
-	const [isInside, setIsInside] = useState(null);
+	const [board, setBoard] = useState();
+	const [playerX, setPlayerX] = useState();
+	const [playerY, setPlayerY] = useState();
+	const [isInside, setIsInside] = useState();
 	const [items, setItems] = useState([]);
 	const [direction, setDirection] = useState(Directions.South);
 
@@ -39,7 +39,7 @@ function GameBoard({ muted }) {
 		return [xLoc, yLoc];
 	}, []);
 
-	function boardHasConflict(board, x, y, width, height) {
+	const boardHasConflict = (board, x, y, width, height) => {
 		for (let i = y; i < y + height; i++) {
 			for (let j = x; j < x + width; j++) {
 				if (board[i][j]) {
@@ -48,7 +48,7 @@ function GameBoard({ muted }) {
 			}
 		}
 		return false;
-	}
+	};
 	const createBoard = useCallback((tempBoard) => {
 		// creates 2d array that will make up the board
 		for (let i = 0; i < boardHeight; i++) {
@@ -95,9 +95,8 @@ function GameBoard({ muted }) {
 			yLoc + h,
 		);
 		if (roomSize.door) {
-			tempBoard[roomSize.door.y + yLoc][
-				roomSize.door.x + xLoc
-			] = building;
+			tempBoard[roomSize.door.y + yLoc][roomSize.door.x + xLoc] =
+				building;
 		}
 	}, []);
 
@@ -263,7 +262,7 @@ function GameBoard({ muted }) {
 	}, [isInside]);
 
 	useEffect(() => {
-		if (muted) {
+		if (isMuted) {
 			walkAudio.current.volume = 0;
 			whoops.current.volume = 0;
 			beepBoop.current.volume = 0;
@@ -272,10 +271,10 @@ function GameBoard({ muted }) {
 			whoops.current.volume = 1;
 			beepBoop.current.volume = 1;
 		}
-	}, [muted]);
+	}, [isMuted]);
 
 	return (
-		<React.Fragment>
+		<>
 			<div className="game-board-container">
 				<div className="game-board">
 					<Player
@@ -297,8 +296,8 @@ function GameBoard({ muted }) {
 				</div>
 			</div>
 			<Inventory items={items} />
-		</React.Fragment>
+		</>
 	);
-}
+};
 
 export default GameBoard;

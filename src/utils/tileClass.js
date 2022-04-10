@@ -9,13 +9,13 @@ export class TileClass {
 }
 
 export const WallTileOrientationEnum = {
-	STRAIGHT_VERTICAL: "straight vertical",
-	STRAIGHT_HORIZONTAL: "straight horizontal",
-	TOP_LEFT: "corner top-left",
-	TOP_RIGHT: "corner top-right",
-	BOTTOM_LEFT: "corner bottom-left",
-	BOTTOM_RIGHT: "corner bottom-right",
-}
+	STRAIGHT_VERTICAL: 'straight vertical',
+	STRAIGHT_HORIZONTAL: 'straight horizontal',
+	TOP_LEFT: 'corner top-left',
+	TOP_RIGHT: 'corner top-right',
+	BOTTOM_LEFT: 'corner bottom-left',
+	BOTTOM_RIGHT: 'corner bottom-right',
+};
 
 export class WallTile extends TileClass {
 	constructor(props) {

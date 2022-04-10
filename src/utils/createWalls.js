@@ -10,18 +10,18 @@ import { WallTile, WallTileOrientationEnum } from './tileClass';
  * @param {Number} maxX
  */
 export const createWalls = (tempBoard, minX, maxX, minY, maxY) => {
-    let wallType = WallTileOrientationEnum.STRAIGHT_VERTICAL
-    for (let i = minY; i < maxY; i++) {
-		tempBoard[i][minX] = new WallTile({wallType});
-		tempBoard[i][maxX - 1] = new WallTile({wallType});
-    }
-    wallType = WallTileOrientationEnum.STRAIGHT_HORIZONTAL
+	let wallType = WallTileOrientationEnum.STRAIGHT_VERTICAL;
+	for (let i = minY; i < maxY; i++) {
+		tempBoard[i][minX] = new WallTile({ wallType });
+		tempBoard[i][maxX - 1] = new WallTile({ wallType });
+	}
+	wallType = WallTileOrientationEnum.STRAIGHT_HORIZONTAL;
 	for (let j = minX; j < maxX; j++) {
-		tempBoard[minY][j] = new WallTile({wallType});
-		tempBoard[maxY - 1][j] = new WallTile({wallType});
-    }
-    
-    // Sets the corners to the proper wallTypes
+		tempBoard[minY][j] = new WallTile({ wallType });
+		tempBoard[maxY - 1][j] = new WallTile({ wallType });
+	}
+
+	// Sets the corners to the proper wallTypes
 	tempBoard[minY][minX] = new WallTile({
 		wallType: WallTileOrientationEnum.TOP_LEFT,
 	});
