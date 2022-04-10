@@ -1,11 +1,10 @@
 import React from 'react';
 
-function Player({ playerX, playerY, direction }) {
-	return (
-		<div
-			style={{ top: playerY * 42 + 'px', left: playerX * 42 + 'px' }}
-			className={`player player-${direction}`}></div>
-	);
-}
+const Player = ({ playerX, playerY, direction }) => (
+	<div
+		style={{ top: playerY * 42 + 'px', left: playerX * 42 + 'px' }}
+		className={`player player-${direction}`}
+	/>
+);
 
 export default Player;

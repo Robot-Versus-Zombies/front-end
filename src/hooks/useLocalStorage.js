@@ -9,7 +9,7 @@ export function useLocalStorage(tokenName, initialValue) {
 	const storeValue = (newValue) => {
 		setValue(newValue);
 		localStorage.setItem(tokenName, newValue);
-    };
-    
-    return [value, storeValue]
+	};
+
+	return [value, storeValue];
 }
