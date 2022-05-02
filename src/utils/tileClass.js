@@ -19,10 +19,18 @@ export const WallTileOrientationEnum = {
 
 export class WallTile extends TileClass {
 	constructor(props) {
-		super({ ...props, impassable: true });
+		super({ ...props, impassable: true, type: 'wall' });
 	}
 }
 
-export class GrassTile extends TileClass {}
+export class GrassTile extends TileClass {
+	constructor(props) {
+		super({ ...props, type: 'grass' });
+	}
+}
 
-export class BuildingTile extends TileClass {}
+export class BuildingTile extends TileClass {
+	constructor(props) {
+		super({ ...props, type: 'building' });
+	}
+}

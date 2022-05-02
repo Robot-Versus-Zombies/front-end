@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Tile from './Tile';
 import Player from './Player';
@@ -8,28 +9,43 @@ import { createWalls } from '../utils/createWalls';
 import { BuildingTile, GrassTile } from '../utils/tileClass';
 import { KeyItem } from '../utils/itemClass';
 
+const WALKWAY_SIZE = 1;
+
 const roomSizes = [
-	{ width: 16, height: 16, door: { x: 8, y: 15 } },
-	{ width: 16, height: 8, door: { x: 8, y: 7 } },
-	{ width: 16, height: 8, door: { x: 8, y: 7 } },
-	{ width: 8, height: 8, door: { x: 4, y: 7 } },
-	{ width: 8, height: 8, door: { x: 4, y: 7 } },
+	{
+		lotSize: { width: 16, height: 16 },
+		door: { x: 8, y: 15 },
+	},
+	{
+		lotSize: { width: 16, height: 8 },
+		door: { x: 8, y: 7 },
+		walkWaySize: 3,
+	},
+	{
+		lotSize: { width: 16, height: 8 },
+		door: { x: 8, y: 7 },
+	},
+	{
+		lotSize: { width: 8, height: 8 },
+		door: { x: 4, y: 7 },
+	},
+	{
+		lotSize: { width: 8, height: 8 },
+		door: { x: 4, y: 7 },
+	},
 ];
-const boardWidth = 35; // = 32 + 1 walkway + 2 border
-const boardHeight = 35;
+
+const boardWidth = 34 + WALKWAY_SIZE; // includes 2 for border width
+const boardHeight = 34 + WALKWAY_SIZE;
 
 const GameBoard = ({ isMuted }) => {
-	let randomNumber = Math.floor(Math.random() * Math.floor(2));
-	// state variables
 	const [board, setBoard] = useState();
 	const [playerX, setPlayerX] = useState();
 	const [playerY, setPlayerY] = useState();
 	const [isInside, setIsInside] = useState();
 	const [items, setItems] = useState([]);
 	const [direction, setDirection] = useState(Directions.South);
-
-	// helper functions
-
+	console.log(`isInside: ${isInside}`);
 	const randomlyPlace = useCallback((tempBoard) => {
 		let xLoc, yLoc;
 		do {
@@ -42,7 +58,7 @@ const GameBoard = ({ isMuted }) => {
 	const boardHasConflict = (board, x, y, width, height) => {
 		for (let i = y; i < y + height; i++) {
 			for (let j = x; j < x + width; j++) {
-				if (board[i][j]) {
+				if (board[i][j].type !== 'grass') {
 					return true;
 				}
 			}
@@ -53,59 +69,74 @@ const GameBoard = ({ isMuted }) => {
 		// creates 2d array that will make up the board
 		for (let i = 0; i < boardHeight; i++) {
 			const row = [];
-
 			for (let j = 0; j < boardWidth; j++) {
-				row.push(null);
+				const grassTile = new GrassTile();
+				row.push(grassTile);
 			}
 			tempBoard.push(row);
 		}
 
 		// drawing the border with walltiles
-		tempBoard = createWalls(tempBoard, 0, boardWidth, 0, boardHeight);
-
+		tempBoard = createWalls({
+			tempBoard,
+			minXIndex: 0,
+			maxXIndex: boardWidth - 1,
+			minYIndex: 0,
+			maxYIndex: boardHeight - 1,
+		});
 		setBoard(tempBoard);
 	}, []);
 
 	const createRoom = useCallback((tempBoard, roomSize) => {
 		let w, h, xLoc, yLoc;
+		const walkWaySize = roomSize.walkWaySize || 1;
 		do {
-			w = roomSize.width;
-			h = roomSize.height;
-			let xNumber = (boardWidth - 3) / w;
-			let yNumber = (boardHeight - 3) / h;
+			w = roomSize.lotSize.width;
+			h = roomSize.lotSize.height;
+			let xNumber = (boardWidth - WALKWAY_SIZE - 2) / w;
+			let yNumber = (boardHeight - WALKWAY_SIZE - 2) / h;
 
-			xLoc = Math.floor(Math.random() * xNumber) * w + 1;
-
-			yLoc = Math.floor(Math.random() * yNumber) * h + 1;
+			// upper left location of room
+			xLoc = Math.floor(Math.random() * xNumber) * w + WALKWAY_SIZE;
+			yLoc = Math.floor(Math.random() * yNumber) * h + WALKWAY_SIZE;
 		} while (boardHasConflict(tempBoard, xLoc, yLoc, w, h));
 
-		const building = new BuildingTile();
-		for (let i = yLoc + 1; i < yLoc + h; i++) {
-			for (let j = xLoc + 1; j < xLoc + w; j++) {
-				tempBoard[i][j] = building;
+		const buildingTile = new BuildingTile();
+		for (let i = yLoc + walkWaySize; i <= yLoc + h - walkWaySize; i++) {
+			for (let j = xLoc + walkWaySize; j <= xLoc + w - walkWaySize; j++) {
+				tempBoard[i][j] = buildingTile;
 			}
 		}
 
 		// generates the walls/outline of the rooms
-		tempBoard = createWalls(
+		tempBoard = createWalls({
 			tempBoard,
-			xLoc + 1,
-			xLoc + w,
-			yLoc + 1,
-			yLoc + h,
-		);
+			minXIndex: xLoc + walkWaySize,
+			maxXIndex: xLoc + roomSize.lotSize.width - walkWaySize,
+			minYIndex: yLoc + walkWaySize,
+			maxYIndex: yLoc + roomSize.lotSize.height - walkWaySize,
+		});
 		if (roomSize.door) {
-			tempBoard[roomSize.door.y + yLoc][roomSize.door.x + xLoc] =
-				building;
+			tempBoard[roomSize.door.y + yLoc - walkWaySize + 1][
+				roomSize.door.x + xLoc
+			] = buildingTile;
 		}
 	}, []);
 
+	const placeKey = ({ xLoc, yLoc, tempBoard }) => {
+		[xLoc, yLoc] = randomlyPlace(tempBoard);
+
+		const grassTile = new GrassTile();
+
+		const key = new KeyItem();
+		grassTile.item = key;
+		tempBoard[yLoc][xLoc] = grassTile;
+	};
+
 	const generateRooms = useCallback(() => {
 		const tempBoard = [];
-		// height
 		createBoard(tempBoard);
 		// populating board
-
 		for (let roomSize of roomSizes) {
 			createRoom(tempBoard, roomSize);
 		}
@@ -121,15 +152,7 @@ const GameBoard = ({ isMuted }) => {
 			setIsInside(false);
 		}
 
-		// place key
-
-		[xLoc, yLoc] = randomlyPlace(tempBoard);
-
-		const grassTile = new GrassTile();
-
-		const key = new KeyItem();
-		grassTile.item = key;
-		tempBoard[yLoc][xLoc] = grassTile;
+		placeKey({ xLoc, yLoc, tempBoard });
 	}, [createRoom, createBoard, randomlyPlace]);
 
 	const savedListener = useRef();
@@ -144,35 +167,33 @@ const GameBoard = ({ isMuted }) => {
 				case 'w':
 					if (direction !== Directions.North) {
 						setDirection(Directions.North);
-					} else {
-						y -= 1;
 					}
+					y -= 1;
 
 					break;
 				// move down
 				case 's':
 					if (direction !== Directions.South) {
 						setDirection(Directions.South);
-					} else {
-						y += 1;
 					}
+					y += 1;
+
 					break;
 				// move left
 				case 'a':
 					if (direction !== Directions.West) {
 						setDirection(Directions.West);
-					} else {
-						x -= 1;
 					}
+					x -= 1;
 
 					break;
 				// move right
 				case 'd':
 					if (direction !== Directions.East) {
 						setDirection(Directions.East);
-					} else {
-						x += 1;
 					}
+					x += 1;
+
 					break;
 				default:
 					break;
@@ -233,7 +254,6 @@ const GameBoard = ({ isMuted }) => {
 		if (board && board[playerY][playerX]?.item) {
 			const tempBoard = [...board];
 			const item = tempBoard[playerY][playerX].item;
-			//tempBoard[playerY][playerX] = { ...tempBoard[playerY][playerX] };
 			tempBoard[playerY][playerX].item = null;
 			setBoard(tempBoard);
 
@@ -241,7 +261,7 @@ const GameBoard = ({ isMuted }) => {
 			setItems(tempInv);
 		}
 
-		let boardEl = document.querySelector('.game-board-container');
+		const boardEl = document.querySelector('.game-board-container');
 		let scrollX = playerX * 42 - 500;
 		scrollX = Math.max(scrollX, 0);
 		scrollX = Math.min(scrollX, 42 * boardWidth - 1000);
@@ -286,7 +306,6 @@ const GameBoard = ({ isMuted }) => {
 						<div className="board-row" key={indexY}>
 							{row.map((tile, indexX) => (
 								<Tile
-									randomNumber={randomNumber}
 									key={JSON.stringify({ indexX, indexY })}
 									tileData={tile}
 								/>

@@ -12,6 +12,8 @@ const Tile = ({ tileData }) => {
 		return Math.floor(Math.random() * Math.floor(2));
 	}
 
+	// if the random number isn't memoized, it'll regenerate every time the player moves
+	// and the grass will appear to move as the player walks
 	const memoizedRandomNumber = useMemo(() => makeRandomNumber(), []);
 
 	return (
