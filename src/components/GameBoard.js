@@ -11,7 +11,7 @@ import { KeyItem } from '../utils/itemClass';
 
 const WALKWAY_SIZE = 1;
 
-const roomSizes = [
+const buildings = [
 	{
 		lotSize: { width: 16, height: 16 },
 		door: { x: 8, y: 15 },
@@ -45,7 +45,7 @@ const GameBoard = ({ isMuted }) => {
 	const [isInside, setIsInside] = useState();
 	const [items, setItems] = useState([]);
 	const [direction, setDirection] = useState(Directions.South);
-	console.log(`isInside: ${isInside}`);
+
 	const randomlyPlace = useCallback((tempBoard) => {
 		let xLoc, yLoc;
 		do {
@@ -87,18 +87,18 @@ const GameBoard = ({ isMuted }) => {
 		setBoard(tempBoard);
 	}, []);
 
-	const createRoom = useCallback((tempBoard, roomSize) => {
+	const createBuilding = useCallback((tempBoard, building) => {
 		let w, h, xLoc, yLoc;
-		const walkWaySize = roomSize.walkWaySize || 1;
+		const walkWaySize = building.walkWaySize || 1;
 		do {
-			w = roomSize.lotSize.width;
-			h = roomSize.lotSize.height;
+			w = building.lotSize.width;
+			h = building.lotSize.height;
 			let xNumber = (boardWidth - WALKWAY_SIZE - 2) / w;
 			let yNumber = (boardHeight - WALKWAY_SIZE - 2) / h;
 
-			// upper left location of room
-			xLoc = Math.floor(Math.random() * xNumber) * w + WALKWAY_SIZE;
-			yLoc = Math.floor(Math.random() * yNumber) * h + WALKWAY_SIZE;
+			// upper left location of building
+			xLoc = Math.floor(Math.random() * xNumber) * w + 1; // 1 for the border
+			yLoc = Math.floor(Math.random() * yNumber) * h + 1; // 1 for the border
 		} while (boardHasConflict(tempBoard, xLoc, yLoc, w, h));
 
 		const buildingTile = new BuildingTile();
@@ -108,17 +108,17 @@ const GameBoard = ({ isMuted }) => {
 			}
 		}
 
-		// generates the walls/outline of the rooms
+		// generates the walls/outline of the buildings
 		tempBoard = createWalls({
 			tempBoard,
 			minXIndex: xLoc + walkWaySize,
-			maxXIndex: xLoc + roomSize.lotSize.width - walkWaySize,
+			maxXIndex: xLoc + building.lotSize.width - walkWaySize,
 			minYIndex: yLoc + walkWaySize,
-			maxYIndex: yLoc + roomSize.lotSize.height - walkWaySize,
+			maxYIndex: yLoc + building.lotSize.height - walkWaySize,
 		});
-		if (roomSize.door) {
-			tempBoard[roomSize.door.y + yLoc - walkWaySize + 1][
-				roomSize.door.x + xLoc
+		if (building.door) {
+			tempBoard[building.door.y + yLoc - walkWaySize + 1][
+				building.door.x + xLoc
 			] = buildingTile;
 		}
 	}, []);
@@ -133,12 +133,12 @@ const GameBoard = ({ isMuted }) => {
 		tempBoard[yLoc][xLoc] = grassTile;
 	};
 
-	const generateRooms = useCallback(() => {
+	const generateBuildings = useCallback(() => {
 		const tempBoard = [];
 		createBoard(tempBoard);
 		// populating board
-		for (let roomSize of roomSizes) {
-			createRoom(tempBoard, roomSize);
+		for (let building of buildings) {
+			createBuilding(tempBoard, building);
 		}
 		// place player
 		let [xLoc, yLoc] = randomlyPlace(tempBoard);
@@ -153,7 +153,7 @@ const GameBoard = ({ isMuted }) => {
 		}
 
 		placeKey({ xLoc, yLoc, tempBoard });
-	}, [createRoom, createBoard, randomlyPlace]);
+	}, [createBuilding, createBoard, randomlyPlace]);
 
 	const savedListener = useRef();
 
@@ -216,7 +216,7 @@ const GameBoard = ({ isMuted }) => {
 	const beepBoop = useRef();
 
 	useEffect(() => {
-		generateRooms();
+		generateBuildings();
 
 		walkAudio.current = new Audio(
 			'https://robot-versus-zombies.github.io/sounds/07%20Step01.wav',
@@ -229,7 +229,7 @@ const GameBoard = ({ isMuted }) => {
 			'https://robot-versus-zombies.github.io/sounds/05%20Beep%20Boop%20Mellow.wav',
 		);
 		beepBoop.current.loop = true;
-	}, [generateRooms]);
+	}, [generateBuildings]);
 
 	useEffect(() => {
 		window.removeEventListener('keydown', savedListener.current);
