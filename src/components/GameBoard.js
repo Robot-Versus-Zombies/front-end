@@ -4,18 +4,9 @@ import Tile from './Tile';
 import Player from './Player';
 import Inventory from './Inventory';
 import { Directions } from '../utils/directions';
-import { createWalls } from '../utils/createWalls';
-import {
-	boardHeight,
-	boardWidth,
-	buildings,
-	WALKWAY_SIZE,
-} from '../utils/config';
-import {
-	randomlyPlace,
-	boardHasConflict,
-	createBoard,
-} from '../utils/createBoard';
+import { createBuilding } from '../utils/createBuildings';
+import { boardHeight, boardWidth, buildings } from '../utils/config';
+import { randomlyPlace, createBoard } from '../utils/createBoard';
 import { BuildingTile, GrassTile } from '../utils/tileClass';
 import { KeyItem } from '../utils/itemClass';
 
@@ -26,42 +17,6 @@ const GameBoard = ({ isMuted }) => {
 	const [isInside, setIsInside] = useState();
 	const [items, setItems] = useState([]);
 	const [direction, setDirection] = useState(Directions.South);
-
-	const createBuilding = useCallback((tempBoard, building) => {
-		let w, h, xLoc, yLoc;
-		const walkWaySize = building.walkWaySize || 1;
-		do {
-			w = building.lotSize.width;
-			h = building.lotSize.height;
-			let xNumber = (boardWidth - WALKWAY_SIZE - 2) / w;
-			let yNumber = (boardHeight - WALKWAY_SIZE - 2) / h;
-
-			// upper left location of building
-			xLoc = Math.floor(Math.random() * xNumber) * w + 1; // 1 for the border
-			yLoc = Math.floor(Math.random() * yNumber) * h + 1; // 1 for the border
-		} while (boardHasConflict(tempBoard, xLoc, yLoc, w, h));
-
-		const buildingTile = new BuildingTile();
-		for (let i = yLoc + walkWaySize; i <= yLoc + h - walkWaySize; i++) {
-			for (let j = xLoc + walkWaySize; j <= xLoc + w - walkWaySize; j++) {
-				tempBoard[i][j] = buildingTile;
-			}
-		}
-
-		// generates the walls/outline of the buildings
-		tempBoard = createWalls({
-			tempBoard,
-			minXIndex: xLoc + walkWaySize,
-			maxXIndex: xLoc + building.lotSize.width - walkWaySize,
-			minYIndex: yLoc + walkWaySize,
-			maxYIndex: yLoc + building.lotSize.height - walkWaySize,
-		});
-		if (building.door) {
-			tempBoard[building.door.y + yLoc - walkWaySize + 1][
-				building.door.x + xLoc
-			] = buildingTile;
-		}
-	}, []);
 
 	const placeKey = ({ xLoc, yLoc, tempBoard }) => {
 		[xLoc, yLoc] = randomlyPlace({ tempBoard });
@@ -75,31 +30,28 @@ const GameBoard = ({ isMuted }) => {
 		}
 	};
 
-	const generateBuildings = useCallback(() => {
+	const populateBoard = useCallback(() => {
 		const tempBoard = [];
 		setBoard(createBoard(tempBoard));
 		// populating board
-		for (let building of buildings) {
-			createBuilding(tempBoard, building);
-		}
+
+		buildings.forEach((building) => {
+			createBuilding({ tempBoard, building });
+		});
 		// place player
-		let [xLoc, yLoc] = randomlyPlace({
+		const [xLoc, yLoc] = randomlyPlace({
 			tempBoard,
 		});
 
 		setPlayerX(xLoc);
 		setPlayerY(yLoc);
 
-		if (tempBoard[yLoc][xLoc] instanceof BuildingTile) {
-			setIsInside(true);
-		} else {
-			setIsInside(false);
-		}
+		tempBoard[yLoc][xLoc] instanceof BuildingTile
+			? setIsInside(true)
+			: setIsInside(false);
 
 		placeKey({ xLoc, yLoc, tempBoard });
 	}, [createBuilding, createBoard, randomlyPlace]);
-
-	const savedListener = useRef();
 
 	const keyDown = useCallback(
 		(event) => {
@@ -160,7 +112,7 @@ const GameBoard = ({ isMuted }) => {
 	const beepBoop = useRef();
 
 	useEffect(() => {
-		generateBuildings();
+		populateBoard();
 
 		walkAudio.current = new Audio(
 			'https://robot-versus-zombies.github.io/sounds/07%20Step01.wav',
@@ -173,8 +125,9 @@ const GameBoard = ({ isMuted }) => {
 			'https://robot-versus-zombies.github.io/sounds/05%20Beep%20Boop%20Mellow.wav',
 		);
 		beepBoop.current.loop = true;
-	}, [generateBuildings]);
+	}, [populateBoard]);
 
+	const savedListener = useRef();
 	useEffect(() => {
 		window.removeEventListener('keydown', savedListener.current);
 		savedListener.current = keyDown;
