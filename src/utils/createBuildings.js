@@ -4,22 +4,38 @@ import { createWalls } from '../utils/createWalls';
 import { boardHasConflict } from '../utils/createBoard';
 
 export const createBuilding = ({ tempBoard, building }) => {
-	let w, h, xLoc, yLoc;
+	let xLoc, yLoc;
 	const walkWaySize = building.walkWaySize || 1;
 	do {
-		w = building.lotSize.width;
-		h = building.lotSize.height;
-		let xNumber = (boardWidth - WALKWAY_SIZE - 2) / w;
-		let yNumber = (boardHeight - WALKWAY_SIZE - 2) / h;
+		let xNumber = (boardWidth - WALKWAY_SIZE - 2) / building.lotSize.width;
+		let yNumber =
+			(boardHeight - WALKWAY_SIZE - 2) / building.lotSize.height;
 
 		// upper left location of building
-		xLoc = Math.floor(Math.random() * xNumber) * w + 1; // 1 for the border
-		yLoc = Math.floor(Math.random() * yNumber) * h + 1; // 1 for the border
-	} while (boardHasConflict(tempBoard, xLoc, yLoc, w, h));
+		xLoc = Math.floor(Math.random() * xNumber) * building.lotSize.width + 1; // 1 for the border
+		yLoc =
+			Math.floor(Math.random() * yNumber) * building.lotSize.height + 1; // 1 for the border
+	} while (
+		boardHasConflict(
+			tempBoard,
+			xLoc,
+			yLoc,
+			building.lotSize.width,
+			building.lotSize.height,
+		)
+	);
 
 	const buildingTile = new BuildingTile();
-	for (let i = yLoc + walkWaySize; i <= yLoc + h - walkWaySize; i++) {
-		for (let j = xLoc + walkWaySize; j <= xLoc + w - walkWaySize; j++) {
+	for (
+		let i = yLoc + walkWaySize;
+		i <= yLoc + building.lotSize.height - walkWaySize;
+		i++
+	) {
+		for (
+			let j = xLoc + walkWaySize;
+			j <= xLoc + building.lotSize.width - walkWaySize;
+			j++
+		) {
 			tempBoard[i][j] = buildingTile;
 		}
 	}

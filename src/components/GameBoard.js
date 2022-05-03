@@ -8,7 +8,7 @@ import { createBuilding } from '../utils/createBuildings';
 import { boardHeight, boardWidth, buildings } from '../utils/config';
 import { randomlyPlace, createBoard } from '../utils/createBoard';
 import { BuildingTile, GrassTile } from '../utils/tileClass';
-import { KeyItem } from '../utils/itemClass';
+import { placeKey } from '../utils/placeItems';
 
 const GameBoard = ({ isMuted }) => {
 	const [board, setBoard] = useState();
@@ -17,18 +17,6 @@ const GameBoard = ({ isMuted }) => {
 	const [isInside, setIsInside] = useState();
 	const [items, setItems] = useState([]);
 	const [direction, setDirection] = useState(Directions.South);
-
-	const placeKey = ({ xLoc, yLoc, tempBoard }) => {
-		[xLoc, yLoc] = randomlyPlace({ tempBoard });
-
-		const grassTile = new GrassTile();
-
-		const key = new KeyItem();
-		grassTile.item = key;
-		if (tempBoard?.[yLoc]?.[xLoc]) {
-			tempBoard[yLoc][xLoc] = grassTile;
-		}
-	};
 
 	const populateBoard = useCallback(() => {
 		const tempBoard = [];
