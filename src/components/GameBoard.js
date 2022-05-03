@@ -11,6 +11,11 @@ import {
 	buildings,
 	WALKWAY_SIZE,
 } from '../utils/config';
+import {
+	randomlyPlace,
+	boardHasConflict,
+	createBoard,
+} from '../utils/createBoard';
 import { BuildingTile, GrassTile } from '../utils/tileClass';
 import { KeyItem } from '../utils/itemClass';
 
@@ -21,47 +26,6 @@ const GameBoard = ({ isMuted }) => {
 	const [isInside, setIsInside] = useState();
 	const [items, setItems] = useState([]);
 	const [direction, setDirection] = useState(Directions.South);
-
-	const randomlyPlace = useCallback((tempBoard) => {
-		let xLoc, yLoc;
-		do {
-			xLoc = Math.floor(Math.random() * boardWidth);
-			yLoc = Math.floor(Math.random() * boardHeight);
-		} while (boardHasConflict(tempBoard, xLoc, yLoc, 1, 1));
-		return [xLoc, yLoc];
-	}, []);
-
-	const boardHasConflict = (board, x, y, width, height) => {
-		for (let i = y; i < y + height; i++) {
-			for (let j = x; j < x + width; j++) {
-				if (board[i][j].type !== 'grass') {
-					return true;
-				}
-			}
-		}
-		return false;
-	};
-	const createBoard = useCallback((tempBoard) => {
-		// creates 2d array that will make up the board
-		for (let i = 0; i < boardHeight; i++) {
-			const row = [];
-			for (let j = 0; j < boardWidth; j++) {
-				const grassTile = new GrassTile();
-				row.push(grassTile);
-			}
-			tempBoard.push(row);
-		}
-
-		// drawing the border with walltiles
-		tempBoard = createWalls({
-			tempBoard,
-			minXIndex: 0,
-			maxXIndex: boardWidth - 1,
-			minYIndex: 0,
-			maxYIndex: boardHeight - 1,
-		});
-		setBoard(tempBoard);
-	}, []);
 
 	const createBuilding = useCallback((tempBoard, building) => {
 		let w, h, xLoc, yLoc;
@@ -100,24 +64,28 @@ const GameBoard = ({ isMuted }) => {
 	}, []);
 
 	const placeKey = ({ xLoc, yLoc, tempBoard }) => {
-		[xLoc, yLoc] = randomlyPlace(tempBoard);
+		[xLoc, yLoc] = randomlyPlace({ tempBoard });
 
 		const grassTile = new GrassTile();
 
 		const key = new KeyItem();
 		grassTile.item = key;
-		tempBoard[yLoc][xLoc] = grassTile;
+		if (tempBoard?.[yLoc]?.[xLoc]) {
+			tempBoard[yLoc][xLoc] = grassTile;
+		}
 	};
 
 	const generateBuildings = useCallback(() => {
 		const tempBoard = [];
-		createBoard(tempBoard);
+		setBoard(createBoard(tempBoard));
 		// populating board
 		for (let building of buildings) {
 			createBuilding(tempBoard, building);
 		}
 		// place player
-		let [xLoc, yLoc] = randomlyPlace(tempBoard);
+		let [xLoc, yLoc] = randomlyPlace({
+			tempBoard,
+		});
 
 		setPlayerX(xLoc);
 		setPlayerY(yLoc);
