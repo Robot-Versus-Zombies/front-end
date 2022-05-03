@@ -5,38 +5,14 @@ import Player from './Player';
 import Inventory from './Inventory';
 import { Directions } from '../utils/directions';
 import { createWalls } from '../utils/createWalls';
-
+import {
+	boardHeight,
+	boardWidth,
+	buildings,
+	WALKWAY_SIZE,
+} from '../utils/config';
 import { BuildingTile, GrassTile } from '../utils/tileClass';
 import { KeyItem } from '../utils/itemClass';
-
-const WALKWAY_SIZE = 1;
-
-const buildings = [
-	{
-		lotSize: { width: 16, height: 16 },
-		door: { x: 8, y: 15 },
-	},
-	{
-		lotSize: { width: 16, height: 8 },
-		door: { x: 8, y: 7 },
-		walkWaySize: 3,
-	},
-	{
-		lotSize: { width: 16, height: 8 },
-		door: { x: 8, y: 7 },
-	},
-	{
-		lotSize: { width: 8, height: 8 },
-		door: { x: 4, y: 7 },
-	},
-	{
-		lotSize: { width: 8, height: 8 },
-		door: { x: 4, y: 7 },
-	},
-];
-
-const boardWidth = 34 + WALKWAY_SIZE; // includes 2 for border width
-const boardHeight = 34 + WALKWAY_SIZE;
 
 const GameBoard = ({ isMuted }) => {
 	const [board, setBoard] = useState();
