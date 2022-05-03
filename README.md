@@ -4,7 +4,6 @@ Post zombie apocalypse. You are a makeshift robot built out of a roomba, a webca
 
 Play the game here: https://robot-vs-zombies.netlify.app/
 
-Watch all the episodes of our live stream here: https://dev.to/josswritescode
 
 ## Built With
 
