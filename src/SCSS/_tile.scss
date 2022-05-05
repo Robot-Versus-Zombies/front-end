@@ -2,16 +2,10 @@
 	box-sizing: border-box;
 	width: 3em;
 	height: 3em;
-	// border: 1px solid black;
-	// border-width: 1px 0 0 1px;
 	display: inline-block;
 	background-size: cover;
-	// default image: grass
-	background-image: url('../images/RobotZombieGrass_Dark.png');
 
 	&.wall {
-		// background-image: url('../images/RobotZombieWall.png');
-
 		&.straight {
 			background-image: url('../images/RobotZombieWallStraight.png') !important;
 
@@ -34,6 +28,16 @@
 		}
 	}
 	&.floor {
-		background-image: url('../images/RobotZombieFloor.png') !important;
+		background-image: url('../images/RobotZombieFloor.png');
+	}
+
+	&.grass {
+		background-image: url('../images/RobotZombieGrass_Dark.png')
+	}
+	&.grass-flower {
+		background-image: url('../images/RobotZombieGrass_DarkFlower.png')
+	}
+	&.door {
+		background-image: url('../images/RobotZombieDoor.png')
 	}
 }

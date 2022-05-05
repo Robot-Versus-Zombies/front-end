@@ -7,7 +7,7 @@ import { Directions } from '../utils/directions';
 import { createBuilding } from '../utils/createBuildings';
 import { boardHeight, boardWidth, buildings } from '../utils/config';
 import { randomlyPlace, createBoard } from '../utils/createBoard';
-import { BuildingTile, GrassTile } from '../utils/tileClass';
+import { BuildingTile } from '../utils/tileClass';
 import { placeKey } from '../utils/placeItems';
 
 const GameBoard = ({ isMuted }) => {
@@ -116,6 +116,7 @@ const GameBoard = ({ isMuted }) => {
 	}, [populateBoard]);
 
 	const savedListener = useRef();
+
 	useEffect(() => {
 		window.removeEventListener('keydown', savedListener.current);
 		savedListener.current = keyDown;

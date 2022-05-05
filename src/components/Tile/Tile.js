@@ -1,11 +1,7 @@
-import React, { useMemo } from 'react';
-import { coinFlip } from '../helpers/coinFlip';
+import React from 'react';
+import { coinFlip } from '../../helpers/coinFlip';
 
 const Tile = ({ tileData }) => {
-	// if the random number isn't memoized, it'll regenerate every time the player moves
-	// and the grass will appear to move as the player walks
-	const memoizedCoinFlip = useMemo(() => coinFlip(), []);
-
 	const getTileClasses = () => {
 		let cssClasses = 'tile ';
 
@@ -19,9 +15,9 @@ const Tile = ({ tileData }) => {
 			case 'door':
 				cssClasses += 'door';
 				break;
-			// making about half of the grass tiles have flower art
+			// flipping a coin to decide if a grass tile gets grass art or flower art
 			default:
-				cssClasses += memoizedCoinFlip ? 'grass' : 'grass-flower';
+				cssClasses += coinFlip() ? 'grass' : 'grass-flower';
 		}
 		return cssClasses;
 	};

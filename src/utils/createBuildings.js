@@ -1,5 +1,5 @@
 import { boardHeight, boardWidth, WALKWAY_SIZE } from '../utils/config';
-import { BuildingTile } from '../utils/tileClass';
+import { BuildingTile, DoorTile } from '../utils/tileClass';
 import { createWalls } from '../utils/createWalls';
 import { boardHasConflict } from '../utils/createBoard';
 
@@ -51,6 +51,6 @@ export const createBuilding = ({ tempBoard, building }) => {
 	if (building.door) {
 		tempBoard[building.door.y + yLoc - walkWaySize + 1][
 			building.door.x + xLoc
-		] = buildingTile;
+		] = new DoorTile();
 	}
 };
