@@ -34,3 +34,9 @@ export class BuildingTile extends TileClass {
 		super({ ...props, type: 'building' });
 	}
 }
+
+export class DoorTile extends TileClass {
+	constructor(props) {
+		super({ ...props, type: 'door' });
+	}
+}
