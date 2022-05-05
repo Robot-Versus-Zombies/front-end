@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import Tile from './Tile';
-import Player from './Player';
-import Inventory from './Inventory';
-import { Directions } from '../utils/directions';
-import { createBuilding } from '../utils/createBuildings';
-import { boardHeight, boardWidth, buildings } from '../utils/config';
-import { randomlyPlace, createBoard } from '../utils/createBoard';
-import { BuildingTile } from '../utils/tileClass';
-import { placeKey } from '../utils/placeItems';
+import Tile from '../Tile';
+import Player from '../Player';
+import Inventory from '../Inventory';
+import { Directions } from '../../utils/directions';
+import { createBuilding } from '../../utils/createBuilding';
+import { boardHeight, boardWidth, buildings } from '../../utils/config';
+import { randomlyPlace, createBoard } from '../../utils/createBoard';
+import { BuildingTile } from '../../utils/tileClass';
+import { placeKey } from '../../utils/placeItems';
 
 const GameBoard = ({ isMuted }) => {
 	const [board, setBoard] = useState();

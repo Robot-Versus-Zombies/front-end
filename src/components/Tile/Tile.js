@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { coinFlip } from '../../helpers/coinFlip';
 
 const Tile = ({ tileData }) => {
+	// memoizing so we're not reflipping the coin every time the player moves
+	const memoizedCoinFlip = useMemo(() => coinFlip(), []);
+
 	const getTileClasses = () => {
 		let cssClasses = 'tile ';
 
@@ -17,7 +20,7 @@ const Tile = ({ tileData }) => {
 				break;
 			// flipping a coin to decide if a grass tile gets grass art or flower art
 			default:
-				cssClasses += coinFlip() ? 'grass' : 'grass-flower';
+				cssClasses += memoizedCoinFlip ? 'grass' : 'grass-flower';
 		}
 		return cssClasses;
 	};

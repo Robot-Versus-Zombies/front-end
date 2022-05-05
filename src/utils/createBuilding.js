@@ -1,7 +1,7 @@
-import { boardHeight, boardWidth, WALKWAY_SIZE } from '../utils/config';
-import { BuildingTile, DoorTile } from '../utils/tileClass';
-import { createWalls } from '../utils/createWalls';
-import { boardHasConflict } from '../utils/createBoard';
+import { boardHeight, boardWidth, WALKWAY_SIZE } from './config';
+import { BuildingTile, DoorTile } from './tileClass';
+import { createWalls } from './createWalls';
+import { boardHasConflict } from './createBoard';
 
 export const createBuilding = ({ tempBoard, building }) => {
 	let xLoc, yLoc;
