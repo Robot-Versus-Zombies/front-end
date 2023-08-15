@@ -9,7 +9,7 @@ import './SCSS/main.scss';
 function App() {
 	const [isMuted, setIsMuted] = useLocalStorage(true);
 	return (
-		<div className="App">
+		<div id="app" className="App">
 			<Header />
 			<h1 className="title">Robot vs Zombies</h1>
 			<img
