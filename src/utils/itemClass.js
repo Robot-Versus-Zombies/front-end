@@ -5,7 +5,6 @@ export class ItemClass {
 		Object.assign(this, props);
 	}
 }
-
 export class KeyItem extends ItemClass {
 	constructor(props) {
 		super(props);

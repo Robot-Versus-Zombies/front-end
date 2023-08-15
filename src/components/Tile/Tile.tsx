@@ -19,13 +19,13 @@ const Tile = ({ tileData }: Props) => {
 
 		switch (tileData.type) {
 			case TileTypeEnum.WALL:
-				cssClasses += 'wall ' + tileData.wallType;
+				cssClasses += TileTypeEnum.WALL + ' ' + tileData.wallType;
 				break;
 			case TileTypeEnum.BUILDING:
 				cssClasses += 'floor';
 				break;
 			case TileTypeEnum.DOOR:
-				cssClasses += 'door';
+				cssClasses += TileTypeEnum.DOOR;
 				break;
 			// flipping a coin to decide if a grass tile gets grass art or flower art
 			default:
