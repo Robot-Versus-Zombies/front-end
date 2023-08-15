@@ -82,7 +82,12 @@ const GameBoard = ({ isMuted }) => {
 				default:
 					break;
 			}
-			if (event.key === 'a' || event.key === 'w' || event.key === 's' || event.key === 'd') {
+			if (
+				event.key === 'a' ||
+				event.key === 'w' ||
+				event.key === 's' ||
+				event.key === 'd'
+			) {
 				if (!board[y][x] || board[y][x].passable) {
 					setPlayerX(x);
 					setPlayerY(y);

@@ -1,6 +1,6 @@
-import { GrassTile } from '../utils/tileClass';
-import { KeyItem } from '../utils/itemClass';
-import { randomlyPlace } from '../utils/createBoard';
+import { GrassTile } from './tileClass';
+import { KeyItem } from './itemClass';
+import { randomlyPlace } from './createBoard';
 
 export const placeKey = ({ xLoc, yLoc, tempBoard }) => {
 	[xLoc, yLoc] = randomlyPlace({ tempBoard });

@@ -1,6 +1,6 @@
-import { boardHeight, boardWidth } from '../utils/config';
-import { GrassTile } from '../utils/tileClass';
-import { createWalls } from '../utils/createWalls';
+import { boardHeight, boardWidth } from './config';
+import { GrassTile } from './tileClass';
+import { createWalls } from './createWalls';
 
 export const boardHasConflict = (board, x, y, width, height) => {
 	for (let i = y; i < y + height; i++) {
