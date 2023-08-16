@@ -1,7 +1,16 @@
 import React, { useMemo } from 'react';
 import { coinFlip } from '../../helpers/coinFlip';
+import { WallTileOrientationEnum, TileTypeEnum } from '../../utils/tileClass';
 
-const Tile = ({ tileData }) => {
+type Props = {
+	tileData: {
+		type: any;
+		wallType: typeof WallTileOrientationEnum;
+		item: any;
+	};
+};
+
+const Tile = ({ tileData }: Props) => {
 	// memoizing so we're not reflipping the coin every time the player moves
 	const memoizedCoinFlip = useMemo(() => coinFlip(), []);
 
@@ -9,14 +18,14 @@ const Tile = ({ tileData }) => {
 		let cssClasses = 'tile ';
 
 		switch (tileData.type) {
-			case 'wall':
-				cssClasses += 'wall ' + tileData.wallType;
+			case TileTypeEnum.WALL:
+				cssClasses += TileTypeEnum.WALL + ' ' + tileData.wallType;
 				break;
-			case 'building':
+			case TileTypeEnum.BUILDING:
 				cssClasses += 'floor';
 				break;
-			case 'door':
-				cssClasses += 'door';
+			case TileTypeEnum.DOOR:
+				cssClasses += TileTypeEnum.DOOR;
 				break;
 			// flipping a coin to decide if a grass tile gets grass art or flower art
 			default:

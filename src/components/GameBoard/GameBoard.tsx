@@ -10,16 +10,19 @@ import { randomlyPlace, createBoard } from '../../utils/createBoard';
 import { BuildingTile } from '../../utils/tileClass';
 import { placeKey } from '../../utils/placeItems';
 
-const GameBoard = ({ isMuted }) => {
-	const [board, setBoard] = useState();
-	const [playerX, setPlayerX] = useState();
-	const [playerY, setPlayerY] = useState();
-	const [isInside, setIsInside] = useState();
-	const [items, setItems] = useState([]);
-	const [direction, setDirection] = useState(Directions.South);
+type Props = {
+	isMuted: boolean;
+};
+const GameBoard = ({ isMuted }: Props) => {
+	const [board, setBoard] = useState<any>();
+	const [playerX, setPlayerX] = useState<any>();
+	const [playerY, setPlayerY] = useState<any>();
+	const [isInside, setIsInside] = useState<any>();
+	const [items, setItems] = useState<any>([]);
+	const [direction, setDirection] = useState<any>(Directions.South);
 
 	const populateBoard = useCallback(() => {
-		const tempBoard = [];
+		const tempBoard: any = [];
 		setBoard(createBoard(tempBoard));
 		// populating board
 
@@ -42,7 +45,7 @@ const GameBoard = ({ isMuted }) => {
 	}, [createBuilding, createBoard, randomlyPlace]);
 
 	const keyDown = useCallback(
-		(event) => {
+		(event: any) => {
 			let x = playerX;
 			let y = playerY;
 
@@ -82,7 +85,12 @@ const GameBoard = ({ isMuted }) => {
 				default:
 					break;
 			}
-			if (event.key === 'a' || event.key === 'w' || event.key === 's' || event.key === 'd') {
+			if (
+				event.key === 'a' ||
+				event.key === 'w' ||
+				event.key === 's' ||
+				event.key === 'd'
+			) {
 				if (!board[y][x] || board[y][x].passable) {
 					setPlayerX(x);
 					setPlayerY(y);
@@ -97,9 +105,9 @@ const GameBoard = ({ isMuted }) => {
 		},
 		[playerX, playerY, board, direction],
 	);
-	const walkAudio = useRef();
-	const whoops = useRef();
-	const beepBoop = useRef();
+	const walkAudio: any = useRef();
+	const whoops: any = useRef();
+	const beepBoop: any = useRef();
 
 	useEffect(() => {
 		populateBoard();
@@ -117,7 +125,7 @@ const GameBoard = ({ isMuted }) => {
 		beepBoop.current.loop = true;
 	}, [populateBoard]);
 
-	const savedListener = useRef();
+	const savedListener: any = useRef();
 
 	useEffect(() => {
 		window.removeEventListener('keydown', savedListener.current);
@@ -158,7 +166,7 @@ const GameBoard = ({ isMuted }) => {
 		scrollY = Math.max(scrollY, 0);
 		scrollY = Math.min(scrollY, 42 * boardHeight - 1000);
 
-		boardEl.scroll(scrollX, scrollY);
+		boardEl?.scroll(scrollX, scrollY);
 	}, [playerX, playerY, keyDown, isInside, board, items]);
 
 	useEffect(() => {
@@ -190,16 +198,21 @@ const GameBoard = ({ isMuted }) => {
 						playerX={playerX}
 						playerY={playerY}
 					/>
-					{board?.map((row, indexY) => (
-						<div className="board-row" key={indexY}>
-							{row.map((tile, indexX) => (
-								<Tile
-									key={JSON.stringify({ indexX, indexY })}
-									tileData={tile}
-								/>
-							))}
-						</div>
-					))}
+					{console.log(board, 'board')}
+					{board?.map((row: [], indexY: number) => {
+						console.log(row, 'row');
+						console.log(indexY, 'indexY');
+						return (
+							<div className="board-row" key={indexY}>
+								{row.map((tile, indexX) => (
+									<Tile
+										key={JSON.stringify({ indexX, indexY })}
+										tileData={tile}
+									/>
+								))}
+							</div>
+						);
+					})}
 				</div>
 			</div>
 			<Inventory items={items} />
