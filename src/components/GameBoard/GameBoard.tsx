@@ -6,7 +6,7 @@ import Inventory from '../Inventory';
 import { Directions } from '../../utils/directions';
 import { createBuilding } from '../../utils/createBuilding';
 import { boardHeight, boardWidth, buildings } from '../../utils/config';
-import { randomlyPlace, createBoard } from '../../utils/createBoard';
+import { createBoard, randomlyPlace } from '../../utils/createBoard';
 import { BuildingTile } from '../../utils/tileClass';
 import { placeKey } from '../../utils/placeItems';
 
@@ -14,12 +14,21 @@ type Props = {
 	isMuted: boolean;
 };
 const GameBoard = ({ isMuted }: Props) => {
+	//defining variables for state of the game.
 	const [board, setBoard] = useState<any>();
 	const [playerX, setPlayerX] = useState<any>();
 	const [playerY, setPlayerY] = useState<any>();
 	const [isInside, setIsInside] = useState<any>();
 	const [items, setItems] = useState<any>([]);
 	const [direction, setDirection] = useState<any>(Directions.South);
+    
+	//defining sound effects
+	const walkAudio: any = useRef();
+	const whoops: any = useRef();
+	const beepBoop: any = useRef();
+
+	const savedListener: any = useRef();
+
 
 	const populateBoard = useCallback(() => {
 		const tempBoard: any = [];
@@ -44,6 +53,7 @@ const GameBoard = ({ isMuted }: Props) => {
 		placeKey({ xLoc, yLoc, tempBoard });
 	}, [createBuilding, createBoard, randomlyPlace]);
 
+	//defining movement logic of the game
 	const keyDown = useCallback(
 		(event: any) => {
 			let x = playerX;
@@ -105,10 +115,8 @@ const GameBoard = ({ isMuted }: Props) => {
 		},
 		[playerX, playerY, board, direction],
 	);
-	const walkAudio: any = useRef();
-	const whoops: any = useRef();
-	const beepBoop: any = useRef();
 
+	// Board creation and audio setup
 	useEffect(() => {
 		populateBoard();
 
@@ -125,7 +133,27 @@ const GameBoard = ({ isMuted }: Props) => {
 		beepBoop.current.loop = true;
 	}, [populateBoard]);
 
-	const savedListener: any = useRef();
+	//audio state
+	useEffect(() => {
+		if (isMuted) {
+			walkAudio.current.volume = 0;
+			whoops.current.volume = 0;
+			beepBoop.current.volume = 0;
+		} else {
+			walkAudio.current.volume = 1;
+			whoops.current.volume = 1;
+			beepBoop.current.volume = 1;
+		}
+	}, [isMuted]);
+
+	//sound effect play
+	useEffect(() => {
+		if (isInside) {
+			beepBoop.current.play();
+		} else {
+			beepBoop.current.pause();
+		}
+	}, [isInside]);
 
 	useEffect(() => {
 		window.removeEventListener('keydown', savedListener.current);
@@ -157,6 +185,7 @@ const GameBoard = ({ isMuted }: Props) => {
 			setItems(tempInv);
 		}
 
+		//adjusting the scroll for movement
 		const boardEl = document.querySelector('.game-board-container');
 		let scrollX = playerX * 42 - 500;
 		scrollX = Math.max(scrollX, 0);
@@ -169,26 +198,8 @@ const GameBoard = ({ isMuted }: Props) => {
 		boardEl?.scroll(scrollX, scrollY);
 	}, [playerX, playerY, keyDown, isInside, board, items]);
 
-	useEffect(() => {
-		if (isInside) {
-			beepBoop.current.play();
-		} else {
-			beepBoop.current.pause();
-		}
-	}, [isInside]);
 
-	useEffect(() => {
-		if (isMuted) {
-			walkAudio.current.volume = 0;
-			whoops.current.volume = 0;
-			beepBoop.current.volume = 0;
-		} else {
-			walkAudio.current.volume = 1;
-			whoops.current.volume = 1;
-			beepBoop.current.volume = 1;
-		}
-	}, [isMuted]);
-
+	//JSX rendering
 	return (
 		<>
 			<div className="game-board-container">
@@ -215,6 +226,7 @@ const GameBoard = ({ isMuted }: Props) => {
 					})}
 				</div>
 			</div>
+			lkat
 			<Inventory items={items} />
 		</>
 	);
