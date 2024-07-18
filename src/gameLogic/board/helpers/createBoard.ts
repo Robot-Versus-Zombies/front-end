@@ -1,7 +1,6 @@
 import { boardHeight, boardWidth } from './config';
-import { GrassTile, TileClass } from './tileClass';
+import { GrassTile, TileClass, TileTypeEnum } from './tileClass';
 import { createWalls } from './createWalls';
-import { TileTypeEnum } from './tileClass';
 
 // IBoard is an interface for a 2D array of Tile instances
 export type IBoard = TileClass[][];

@@ -19,6 +19,30 @@ export interface IBuilding {
 	door?: IDoor;
 }
 
+export const buildings: IBuilding[] = [
+	{
+		lotSize: { width: 16, height: 16 },
+		door: { x: 8, y: 15 },
+	},
+	{
+		lotSize: { width: 16, height: 8 },
+		door: { x: 8, y: 7 },
+		walkWaySize: 3,
+	},
+	{
+		lotSize: { width: 16, height: 8 },
+		door: { x: 8, y: 7 },
+	},
+	{
+		lotSize: { width: 8, height: 8 },
+		door: { x: 4, y: 7 },
+	},
+	{
+		lotSize: { width: 8, height: 8 },
+		door: { x: 4, y: 7 },
+	},
+];
+
 // Define the type for the tempBoard parameter
 type TempBoardType = (BuildingTile | DoorTile)[][];
 

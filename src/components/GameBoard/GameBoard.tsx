@@ -4,13 +4,24 @@ import Tile from '../Tile';
 import Player from '../Player';
 import Inventory from '../Inventory';
 
-import { Directions } from '../../utils/directions';
-import { createBuilding, IBuilding } from '../../utils/createBuilding';
-import { boardHeight, boardWidth, buildings } from '../../utils/config';
-import { randomlyPlace, createBoard, IBoard } from '../../utils/createBoard';
-import { BuildingTile, GrassTile, TileClass } from '../../utils/tileClass';
-import { placeKey } from '../../utils/placeItems';
-
+import { Directions } from '../../gameLogic/helpers/directions';
+import {
+	createBuilding,
+	IBuilding,
+} from '../../gameLogic/board/helpers/createBuilding';
+import { boardHeight, boardWidth } from '../../gameLogic/board/helpers/config';
+import {
+	randomlyPlace,
+	createBoard,
+	IBoard,
+} from '../../gameLogic/board/helpers/createBoard';
+import {
+	BuildingTile,
+	GrassTile,
+	TileClass,
+} from '../../gameLogic/board/helpers/tileClass';
+import { placeKey } from '../../gameLogic/Items/helpers/placeItems';
+import { buildings } from '../../gameLogic/board/helpers/createBuilding';
 type Props = {
 	isMuted: boolean;
 };

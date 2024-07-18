@@ -1,7 +1,6 @@
-import { TileTypeEnum } from './tileClass';
-import { GrassTile } from './tileClass';
+import { TileTypeEnum, GrassTile } from '../../board/helpers/tileClass';
 import { KeyItem } from './itemClass';
-import { randomlyPlace } from './createBoard';
+import { randomlyPlace } from '../../board/helpers/createBoard';
 
 interface PlaceKeyParams {
 	xLoc: number;
