@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from './components/Header';
-import ToggleButton from './components/ToggleButton';
+import ToggleButton from './components/ToggleMuteButton';
 import './SCSS/main.scss';
 import GameBoard from './components/GameBoard'; // Assuming GameBoard is imported correctly
 
