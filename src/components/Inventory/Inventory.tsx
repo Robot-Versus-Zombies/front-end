@@ -10,11 +10,10 @@ type Props = {
 };
 
 const Inventory = ({ items }: Props) => {
-	console.log(items, 'items');
 	return (
 		<div className="inventory">
-			{items.map(({ alt, image }: any) => (
-				<div key={alt} className="inventory-item">
+			{items.map(({ alt, image }: any, index: number) => (
+				<div key={`${alt}-${index}`} className="inventory-item">
 					<img src={image} alt={alt} />
 				</div>
 			))}

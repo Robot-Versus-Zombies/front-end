@@ -33,7 +33,7 @@ export class WallTile extends TileClass {
 export class GrassTile extends TileClass {
 	item: any; // TODO: Define a more specific type
 	constructor(props: TileProps) {
-		super({ ...props, type: TileTypeEnum.GRASS });
+		super({ ...props, impassable: false, type: TileTypeEnum.GRASS });
 	}
 }
 

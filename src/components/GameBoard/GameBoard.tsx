@@ -91,7 +91,7 @@ const GameBoard = ({ isMuted }: Props) => {
 				event.key === 's' ||
 				event.key === 'd'
 			) {
-				if (!board[y][x] || board[y][x].passable) {
+				if (!board[y][x] || !board[y][x].impassable) {
 					setPlayerX(x);
 					setPlayerY(y);
 					if (!walkAudio.current.ended) {
@@ -198,10 +198,8 @@ const GameBoard = ({ isMuted }: Props) => {
 						playerX={playerX}
 						playerY={playerY}
 					/>
-					{console.log(board, 'board')}
+
 					{board?.map((row: [], indexY: number) => {
-						console.log(row, 'row');
-						console.log(indexY, 'indexY');
 						return (
 							<div className="board-row" key={indexY}>
 								{row.map((tile, indexX) => (
