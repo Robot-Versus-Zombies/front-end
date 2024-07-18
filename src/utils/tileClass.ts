@@ -1,24 +1,31 @@
+import { ItemProps } from './itemClass';
+// Define TileProps with specific properties expected in all tiles
 interface TileProps {
-	[key: string]: any; // TODO: Define a more specific type
+	impassable?: boolean;
+	type: TileTypeEnum;
+	// Add other common properties here
 }
 
-export const TileTypeEnum = Object.freeze({
-	WALL: 'wall',
-	BUILDING: 'building',
-	GRASS: 'grass',
-	DOOR: 'door',
-});
+// Define a more specific type for items that can be on a GrassTile
 
-export const WallTileOrientationEnum = Object.freeze({
-	STRAIGHT_VERTICAL: 'straight vertical',
-	STRAIGHT_HORIZONTAL: 'straight horizontal',
-	TOP_LEFT: 'corner top-left',
-	TOP_RIGHT: 'corner top-right',
-	BOTTOM_LEFT: 'corner bottom-left',
-	BOTTOM_RIGHT: 'corner bottom-right',
-});
+export enum TileTypeEnum {
+	WALL = 'wall',
+	BUILDING = 'building',
+	GRASS = 'grass',
+	DOOR = 'door',
+}
+
+export enum WallTileOrientationEnum {
+	STRAIGHT_VERTICAL = 'straight vertical',
+	STRAIGHT_HORIZONTAL = 'straight horizontal',
+	TOP_LEFT = 'corner top-left',
+	TOP_RIGHT = 'corner top-right',
+	BOTTOM_LEFT = 'corner bottom-left',
+	BOTTOM_RIGHT = 'corner bottom-right',
+}
 
 export class TileClass {
+	type: TileTypeEnum = TileTypeEnum.GRASS; // Add an initializer for the 'type' property
 	constructor(props: TileProps) {
 		Object.assign(this, props);
 	}
@@ -31,15 +38,16 @@ export class WallTile extends TileClass {
 }
 
 export class GrassTile extends TileClass {
-	item: any; // TODO: Define a more specific type
-	constructor(props: TileProps) {
+	item?: ItemProps; // Now optionally expects a ItemProps object
+	constructor(props: TileProps & { item?: ItemProps }) {
 		super({ ...props, impassable: false, type: TileTypeEnum.GRASS });
+		this.item = props.item;
 	}
 }
 
 export class BuildingTile extends TileClass {
 	constructor(props: TileProps) {
-		super({ ...props, type: TileTypeEnum.BUILDING });
+		super({ ...props, impassable: false, type: TileTypeEnum.BUILDING });
 	}
 }
 

@@ -1,6 +1,6 @@
 import Key from '../images/old-key.png';
 
-interface ItemProps {
+export interface ItemProps {
 	[key: string]: any; // Ideally, define a more specific type
 }
 
