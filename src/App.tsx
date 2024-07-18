@@ -1,35 +1,21 @@
 import React from 'react';
-
-import { useLocalStorage } from './hooks/useLocalStorage';
-
-import GameBoard from './components/GameBoard';
 import Header from './components/Header';
-import Mute from './images/volume_off-24px.svg';
-import Unmute from './images/volume_up-24px.svg';
+import ToggleButton from './components/ToggleButton';
 import './SCSS/main.scss';
+import GameBoard from './components/GameBoard'; // Assuming GameBoard is imported correctly
 
-interface AppProps {
-	tab: string;
-}
+function App() {
+	const [isMuted, setIsMuted] = React.useState<boolean>(true);
 
-function App({ tab }: AppProps) {
-	const [isMuted, setIsMuted] = useLocalStorage('isMuted', true);
-
-	function toggleMute() {
+	const toggleMute = React.useCallback(() => {
 		setIsMuted(!isMuted);
-	}
+	}, [isMuted]);
+
 	return (
 		<div id="app" className="App">
 			<Header />
 			<h1 className="title">Robot vs Zombies</h1>
-			<button
-				onClick={toggleMute}
-				aria-label={isMuted ? 'Unmute' : 'Mute'}>
-				<img
-					src={isMuted ? Mute : Unmute}
-					alt={isMuted ? 'Unmute' : 'Mute'}
-				/>
-			</button>
+			<ToggleButton isMuted={isMuted} toggleMute={toggleMute} />
 			<GameBoard isMuted={isMuted} />
 		</div>
 	);
