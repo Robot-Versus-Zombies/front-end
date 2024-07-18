@@ -1,11 +1,5 @@
-export class TileClass {
-	constructor(props) {
-		Object.assign(this, props);
-	}
-
-	get passable() {
-		return !this.impassable;
-	}
+interface TileProps {
+	[key: string]: any; // TODO: Define a more specific type
 }
 
 export const TileTypeEnum = Object.freeze({
@@ -24,26 +18,33 @@ export const WallTileOrientationEnum = Object.freeze({
 	BOTTOM_RIGHT: 'corner bottom-right',
 });
 
+export class TileClass {
+	constructor(props: TileProps) {
+		Object.assign(this, props);
+	}
+}
+
 export class WallTile extends TileClass {
-	constructor(props) {
-		super({ ...props, impassable: true, type: 'wall' });
+	constructor(props: TileProps) {
+		super({ ...props, impassable: true, type: TileTypeEnum.WALL });
 	}
 }
 
 export class GrassTile extends TileClass {
-	constructor(props) {
-		super({ ...props, type: 'grass' });
+	item: any; // TODO: Define a more specific type
+	constructor(props: TileProps) {
+		super({ ...props, type: TileTypeEnum.GRASS });
 	}
 }
 
 export class BuildingTile extends TileClass {
-	constructor(props) {
-		super({ ...props, type: 'building' });
+	constructor(props: TileProps) {
+		super({ ...props, type: TileTypeEnum.BUILDING });
 	}
 }
 
 export class DoorTile extends TileClass {
-	constructor(props) {
-		super({ ...props, type: 'door' });
+	constructor(props: TileProps) {
+		super({ ...props, type: TileTypeEnum.DOOR });
 	}
 }
