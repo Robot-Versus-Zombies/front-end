@@ -1,13 +1,19 @@
 import React from 'react';
+
 import { useLocalStorage } from './hooks/useLocalStorage';
+
 import GameBoard from './components/GameBoard';
 import Header from './components/Header';
 import Mute from './images/volume_off-24px.svg';
 import Unmute from './images/volume_up-24px.svg';
 import './SCSS/main.scss';
 
-function App() {
-	const [isMuted, setIsMuted] = useLocalStorage(true);
+interface AppProps {
+	tab: string;
+}
+
+function App({ tab }: AppProps) {
+	const [isMuted, setIsMuted] = useLocalStorage('isMuted', true);
 
 	function toggleMute() {
 		setIsMuted(!isMuted);
