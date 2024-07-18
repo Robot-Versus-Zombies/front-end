@@ -1,12 +1,8 @@
 import React from 'react';
-
-interface Item {
-	alt: string;
-	image: string;
-}
+import Item from '../GameBoard';
 
 type Props = {
-	items: Item[];
+	items: (typeof Item)[];
 };
 
 const Inventory = ({ items }: Props) => {

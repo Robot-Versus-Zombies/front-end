@@ -3,7 +3,7 @@ import { ItemProps } from './itemClass';
 interface TileProps {
 	impassable?: boolean;
 	type: TileTypeEnum;
-	// Add other common properties here
+	item?: null | ItemProps;
 }
 
 // Define a more specific type for items that can be on a GrassTile
@@ -26,6 +26,8 @@ export enum WallTileOrientationEnum {
 
 export class TileClass {
 	type: TileTypeEnum = TileTypeEnum.GRASS; // Add an initializer for the 'type' property
+	impassable: any;
+	item?: ItemProps;
 	constructor(props: TileProps) {
 		Object.assign(this, props);
 	}

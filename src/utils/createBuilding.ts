@@ -1,5 +1,5 @@
 import { boardHeight, boardWidth, WALKWAY_SIZE } from './config';
-import { BuildingTile, DoorTile } from './tileClass';
+import { BuildingTile, DoorTile, TileTypeEnum } from './tileClass';
 import { createWalls } from './createWalls';
 import { boardHasConflict } from './createBoard';
 
@@ -19,7 +19,18 @@ export interface IBuilding {
 	door?: IDoor;
 }
 
-export const createBuilding = ({ tempBoard, building }) => {
+// Define the type for the tempBoard parameter
+type TempBoardType = (BuildingTile | DoorTile)[][];
+
+interface CreateBuildingParams {
+	tempBoard: TempBoardType;
+	building: IBuilding;
+}
+
+export const createBuilding = ({
+	tempBoard,
+	building,
+}: CreateBuildingParams): TempBoardType => {
 	let xLoc, yLoc;
 	const walkWaySize = building.walkWaySize || 1;
 	do {
@@ -41,7 +52,13 @@ export const createBuilding = ({ tempBoard, building }) => {
 		)
 	);
 
-	const buildingTile = new BuildingTile();
+	// Assuming tempBoard is a 2D array representing the game board
+	// and building is an object conforming to the IBuilding interface
+
+	const buildingTile = new BuildingTile({
+		impassable: false,
+		type: TileTypeEnum.BUILDING,
+	});
 	for (
 		let i = yLoc + walkWaySize;
 		i <= yLoc + building.lotSize.height - walkWaySize;
@@ -52,11 +69,11 @@ export const createBuilding = ({ tempBoard, building }) => {
 			j <= xLoc + building.lotSize.width - walkWaySize;
 			j++
 		) {
-			tempBoard[i][j] = buildingTile;
+			tempBoard[i][j] = buildingTile; // Fill the building area with building tiles
 		}
 	}
 
-	// generates the walls/outline of the buildings
+	// Generate the walls/outline of the buildings
 	tempBoard = createWalls({
 		tempBoard,
 		minXIndex: xLoc + walkWaySize,
@@ -64,9 +81,24 @@ export const createBuilding = ({ tempBoard, building }) => {
 		minYIndex: yLoc + walkWaySize,
 		maxYIndex: yLoc + building.lotSize.height - walkWaySize,
 	});
+
+	// Place the door if specified
 	if (building.door) {
-		tempBoard[building.door.y + yLoc - walkWaySize + 1][
-			building.door.x + xLoc
-		] = new DoorTile();
+		const doorY = building.door.y + yLoc - walkWaySize + 1;
+		const doorX = building.door.x + xLoc;
+		// Ensure the door's position is within the bounds of the board
+		if (
+			doorY >= 0 &&
+			doorY < tempBoard.length &&
+			doorX >= 0 &&
+			doorX < tempBoard[0].length
+		) {
+			tempBoard[doorY][doorX] = new DoorTile({
+				impassable: false,
+				type: TileTypeEnum.DOOR,
+			});
+		}
 	}
+
+	return tempBoard; // Add a return statement to return the tempBoard variable
 };

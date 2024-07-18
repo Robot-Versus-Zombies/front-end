@@ -8,7 +8,7 @@ import { Directions } from '../../utils/directions';
 import { createBuilding, IBuilding } from '../../utils/createBuilding';
 import { boardHeight, boardWidth, buildings } from '../../utils/config';
 import { randomlyPlace, createBoard, IBoard } from '../../utils/createBoard';
-import { BuildingTile, TileClass } from '../../utils/tileClass';
+import { BuildingTile, GrassTile, TileClass } from '../../utils/tileClass';
 import { placeKey } from '../../utils/placeItems';
 
 type Props = {
@@ -26,13 +26,27 @@ const GameBoard = ({ isMuted }: Props) => {
 		x: 0,
 		y: 0,
 	});
-	const [playerY, setPlayerY] = useState<any>();
-	const [isInside, setIsInside] = useState<any>();
+	const [isInside, setIsInside] = useState<boolean>(false);
 	const [items, setItems] = useState<any>([]);
-	const [direction, setDirection] = useState<any>(Directions.South);
+	const [direction, setDirection] = useState<Directions>(Directions.South);
+	const walkAudio = useRef(
+		new Audio(
+			'https://robot-versus-zombies.github.io/sounds/07%20Step01.wav',
+		),
+	);
+	const whoops = useRef(
+		new Audio(
+			'https://robot-versus-zombies.github.io/sounds/06%20Swing%20n%20Miss.wav',
+		),
+	);
+	const beepBoop = useRef(
+		new Audio(
+			'https://robot-versus-zombies.github.io/sounds/05%20Beep%20Boop%20Mellow.wav',
+		),
+	);
 
 	const populateBoard = useCallback(() => {
-		const tempBoard: any = [];
+		const tempBoard: GrassTile[][] = [];
 		setBoard(createBoard(tempBoard));
 		// populating board
 
@@ -54,7 +68,7 @@ const GameBoard = ({ isMuted }: Props) => {
 	}, [createBuilding, createBoard, randomlyPlace]);
 
 	const keyDown = useCallback(
-		(event: any) => {
+		(event: { key: string }) => {
 			let x = playerPosition.x;
 			let y = playerPosition.y;
 
@@ -100,37 +114,35 @@ const GameBoard = ({ isMuted }: Props) => {
 				event.key === 's' ||
 				event.key === 'd'
 			) {
-				if (!board[y][x] || !board[y][x].impassable) {
+				if (board && (!board[y][x] || !board[y][x].impassable)) {
 					setPlayerPosition({ x, y });
-					if (!walkAudio.current.ended) {
+					if (walkAudio.current && !walkAudio.current.ended) {
 						walkAudio.current.currentTime = 0;
 					}
-					walkAudio.current.play();
+					walkAudio?.current?.play();
 				} else {
-					whoops.current.play();
+					if (whoops.current) {
+						whoops.current.play();
+					}
 				}
 			}
 		},
 		[playerPosition, board, direction],
 	);
-	const walkAudio: any = useRef();
-	const whoops: any = useRef();
-	const beepBoop: any = useRef();
 
 	useEffect(() => {
 		populateBoard();
-
-		walkAudio.current = new Audio(
-			'https://robot-versus-zombies.github.io/sounds/07%20Step01.wav',
-		);
-		whoops.current = new Audio(
-			'https://robot-versus-zombies.github.io/sounds/06%20Swing%20n%20Miss.wav',
-		);
-
-		beepBoop.current = new Audio(
-			'https://robot-versus-zombies.github.io/sounds/05%20Beep%20Boop%20Mellow.wav',
-		);
 		beepBoop.current.loop = true;
+		// Cleanup function to pause and potentially reset audio if component unmounts
+		return () => {
+			walkAudio.current.pause();
+			whoops.current.pause();
+			beepBoop.current.pause();
+			// Reset currentTime if necessary
+			// walkAudio.current.currentTime = 0;
+			// whoops.current.currentTime = 0;
+			// beepBoop.current.currentTime = 0;
+		};
 	}, [populateBoard]);
 
 	const savedListener: any = useRef();
@@ -161,10 +173,12 @@ const GameBoard = ({ isMuted }: Props) => {
 		if (board && board[playerY][playerX]?.item) {
 			const tempBoard = [...board];
 			const item = tempBoard[playerY][playerX].item;
-			tempBoard[playerY][playerX].item = null;
+			tempBoard[playerY][playerX].item = undefined;
 			setBoard(tempBoard);
 
-			const tempInv = [...items, item];
+			const tempInv = [...items, item].filter(
+				(item) => item !== undefined,
+			);
 			setItems(tempInv);
 		}
 
@@ -178,7 +192,7 @@ const GameBoard = ({ isMuted }: Props) => {
 		scrollY = Math.min(scrollY, 42 * boardHeight - 1000);
 
 		boardEl?.scroll(scrollX, scrollY);
-	}, [playerPosition, playerY, keyDown, isInside, board, items]);
+	}, [playerPosition, keyDown, isInside, board, items]);
 
 	useEffect(() => {
 		if (isInside) {
