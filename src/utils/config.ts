@@ -1,4 +1,20 @@
-export const buildings = [
+interface LotSize {
+	width: number;
+	height: number;
+}
+
+interface Door {
+	x: number;
+	y: number;
+}
+
+interface Building {
+	lotSize: LotSize;
+	door: Door;
+	walkWaySize?: number; // Optional property
+}
+
+export const buildings: Building[] = [
 	{
 		lotSize: { width: 16, height: 16 },
 		door: { x: 8, y: 15 },

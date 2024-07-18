@@ -1,12 +1,20 @@
 import { WallTile, WallTileOrientationEnum } from './tileClass';
 
+interface CreateWallsParams {
+	tempBoard: WallTile[][];
+	minXIndex: number;
+	maxXIndex: number;
+	minYIndex: number;
+	maxYIndex: number;
+}
+
 export const createWalls = ({
 	tempBoard,
 	minXIndex,
 	maxXIndex,
 	minYIndex,
 	maxYIndex,
-}) => {
+}: CreateWallsParams): WallTile[][] => {
 	let wallType = WallTileOrientationEnum.STRAIGHT_VERTICAL;
 	for (let i = minYIndex; i <= maxYIndex; i++) {
 		tempBoard[i][minXIndex] = new WallTile({ wallType });
