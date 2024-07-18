@@ -5,8 +5,8 @@ import { WallTileOrientationEnum, TileTypeEnum } from '../../utils/tileClass';
 type Props = {
 	tileData: {
 		type: any;
-		wallType: typeof WallTileOrientationEnum;
-		item: any;
+		wallType?: typeof WallTileOrientationEnum;
+		item?: any;
 	};
 };
 

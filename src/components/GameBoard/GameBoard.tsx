@@ -3,18 +3,25 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Tile from '../Tile';
 import Player from '../Player';
 import Inventory from '../Inventory';
+
 import { Directions } from '../../utils/directions';
-import { createBuilding } from '../../utils/createBuilding';
+import { createBuilding, IBuilding } from '../../utils/createBuilding';
 import { boardHeight, boardWidth, buildings } from '../../utils/config';
-import { randomlyPlace, createBoard } from '../../utils/createBoard';
-import { BuildingTile } from '../../utils/tileClass';
+import { randomlyPlace, createBoard, IBoard } from '../../utils/createBoard';
+import { BuildingTile, TileClass } from '../../utils/tileClass';
 import { placeKey } from '../../utils/placeItems';
 
 type Props = {
 	isMuted: boolean;
 };
+
+interface IPlayerPosition {
+	x: number;
+	y: number;
+}
+
 const GameBoard = ({ isMuted }: Props) => {
-	const [board, setBoard] = useState<any>();
+	const [board, setBoard] = useState<IBoard | null>(null);
 	const [playerX, setPlayerX] = useState<any>();
 	const [playerY, setPlayerY] = useState<any>();
 	const [isInside, setIsInside] = useState<any>();
@@ -26,7 +33,7 @@ const GameBoard = ({ isMuted }: Props) => {
 		setBoard(createBoard(tempBoard));
 		// populating board
 
-		buildings.forEach((building) => {
+		buildings.forEach((building: IBuilding) => {
 			createBuilding({ tempBoard, building });
 		});
 		// place player
@@ -199,7 +206,7 @@ const GameBoard = ({ isMuted }: Props) => {
 						playerY={playerY}
 					/>
 
-					{board?.map((row: [], indexY: number) => {
+					{board?.map((row: TileClass[], indexY: number) => {
 						return (
 							<div className="board-row" key={indexY}>
 								{row.map((tile, indexX) => (

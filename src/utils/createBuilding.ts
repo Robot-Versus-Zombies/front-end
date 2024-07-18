@@ -3,6 +3,22 @@ import { BuildingTile, DoorTile } from './tileClass';
 import { createWalls } from './createWalls';
 import { boardHasConflict } from './createBoard';
 
+interface ILotSize {
+	width: number;
+	height: number;
+}
+
+interface IDoor {
+	x: number;
+	y: number;
+}
+
+export interface IBuilding {
+	walkWaySize?: number;
+	lotSize: ILotSize;
+	door?: IDoor;
+}
+
 export const createBuilding = ({ tempBoard, building }) => {
 	let xLoc, yLoc;
 	const walkWaySize = building.walkWaySize || 1;

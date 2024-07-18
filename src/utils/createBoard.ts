@@ -1,9 +1,11 @@
 import { boardHeight, boardWidth } from './config';
-import { GrassTile } from './tileClass';
+import { GrassTile, TileClass } from './tileClass';
 import { createWalls } from './createWalls';
 import { TileTypeEnum } from './tileClass';
 
-// Assuming board is a 2D array of a class that includes a type property
+// IBoard is an interface for a 2D array of Tile instances
+export type IBoard = TileClass[][];
+
 export const boardHasConflict = (
 	board: GrassTile[][],
 	x: number,
