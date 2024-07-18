@@ -9,6 +9,7 @@ import {
 	createBuilding,
 	IBuilding,
 } from '../../gameLogic/board/helpers/createBuilding';
+import { usePopulateBoard } from '../../gameLogic/game/usePopulateBoard';
 import { boardHeight, boardWidth } from '../../gameLogic/board/helpers/config';
 import {
 	randomlyPlace,
@@ -56,27 +57,11 @@ const GameBoard = ({ isMuted }: Props) => {
 		),
 	);
 
-	const populateBoard = useCallback(() => {
-		const tempBoard: GrassTile[][] = [];
-		setBoard(createBoard(tempBoard));
-		// populating board
-
-		buildings.forEach((building: IBuilding) => {
-			createBuilding({ tempBoard, building });
-		});
-		// place player
-		const [xLoc, yLoc] = randomlyPlace({
-			tempBoard,
-		});
-
-		setPlayerPosition({ x: xLoc, y: yLoc });
-
-		tempBoard[yLoc][xLoc] instanceof BuildingTile
-			? setIsInside(true)
-			: setIsInside(false);
-
-		placeKey({ xLoc, yLoc, tempBoard });
-	}, [createBuilding, createBoard, randomlyPlace]);
+	const populateBoard = usePopulateBoard({
+		setBoard,
+		setPlayerPosition,
+		setIsInside,
+	});
 
 	const keyDown = useCallback(
 		(event: { key: string }) => {
