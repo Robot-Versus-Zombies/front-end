@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Tile from '../Tile';
 import Player from '../Player';
 import Inventory from '../Inventory';
-
+import { useAudioMuteToggle } from '../../hooks/useAudioMuteToggle';
 import { Directions } from '../../gameLogic/helpers/directions';
 import {
 	createBuilding,
@@ -213,17 +213,10 @@ const GameBoard = ({ isMuted }: Props) => {
 		}
 	}, [isInside]);
 
-	useEffect(() => {
-		if (isMuted) {
-			walkAudio.current.volume = 0;
-			whoops.current.volume = 0;
-			beepBoop.current.volume = 0;
-		} else {
-			walkAudio.current.volume = 1;
-			whoops.current.volume = 1;
-			beepBoop.current.volume = 1;
-		}
-	}, [isMuted]);
+	useAudioMuteToggle({
+		isMuted,
+		audioElements: [walkAudio, whoops, beepBoop],
+	});
 
 	return (
 		<>
