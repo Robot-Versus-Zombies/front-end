@@ -22,7 +22,10 @@ interface IPlayerPosition {
 
 const GameBoard = ({ isMuted }: Props) => {
 	const [board, setBoard] = useState<IBoard | null>(null);
-	const [playerX, setPlayerX] = useState<any>();
+	const [playerPosition, setPlayerPosition] = useState<IPlayerPosition>({
+		x: 0,
+		y: 0,
+	});
 	const [playerY, setPlayerY] = useState<any>();
 	const [isInside, setIsInside] = useState<any>();
 	const [items, setItems] = useState<any>([]);
@@ -41,8 +44,7 @@ const GameBoard = ({ isMuted }: Props) => {
 			tempBoard,
 		});
 
-		setPlayerX(xLoc);
-		setPlayerY(yLoc);
+		setPlayerPosition({ x: xLoc, y: yLoc });
 
 		tempBoard[yLoc][xLoc] instanceof BuildingTile
 			? setIsInside(true)
@@ -53,8 +55,8 @@ const GameBoard = ({ isMuted }: Props) => {
 
 	const keyDown = useCallback(
 		(event: any) => {
-			let x = playerX;
-			let y = playerY;
+			let x = playerPosition.x;
+			let y = playerPosition.y;
 
 			switch (event.key) {
 				// move up
@@ -99,8 +101,7 @@ const GameBoard = ({ isMuted }: Props) => {
 				event.key === 'd'
 			) {
 				if (!board[y][x] || !board[y][x].impassable) {
-					setPlayerX(x);
-					setPlayerY(y);
+					setPlayerPosition({ x, y });
 					if (!walkAudio.current.ended) {
 						walkAudio.current.currentTime = 0;
 					}
@@ -110,7 +111,7 @@ const GameBoard = ({ isMuted }: Props) => {
 				}
 			}
 		},
-		[playerX, playerY, board, direction],
+		[playerPosition, board, direction],
 	);
 	const walkAudio: any = useRef();
 	const whoops: any = useRef();
@@ -138,6 +139,9 @@ const GameBoard = ({ isMuted }: Props) => {
 		window.removeEventListener('keydown', savedListener.current);
 		savedListener.current = keyDown;
 		window.addEventListener('keydown', keyDown);
+
+		let playerX = playerPosition.x;
+		let playerY = playerPosition.y;
 
 		// checking to see if player is about to enter a building
 		if (
@@ -174,7 +178,7 @@ const GameBoard = ({ isMuted }: Props) => {
 		scrollY = Math.min(scrollY, 42 * boardHeight - 1000);
 
 		boardEl?.scroll(scrollX, scrollY);
-	}, [playerX, playerY, keyDown, isInside, board, items]);
+	}, [playerPosition, playerY, keyDown, isInside, board, items]);
 
 	useEffect(() => {
 		if (isInside) {
@@ -202,8 +206,8 @@ const GameBoard = ({ isMuted }: Props) => {
 				<div className="game-board">
 					<Player
 						direction={direction}
-						playerX={playerX}
-						playerY={playerY}
+						playerX={playerPosition.x}
+						playerY={playerPosition.y}
 					/>
 
 					{board?.map((row: TileClass[], indexY: number) => {
