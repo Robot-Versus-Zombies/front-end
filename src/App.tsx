@@ -8,15 +8,22 @@ import './SCSS/main.scss';
 
 function App() {
 	const [isMuted, setIsMuted] = useLocalStorage(true);
+
+	function toggleMute() {
+		setIsMuted(!isMuted);
+	}
 	return (
 		<div id="app" className="App">
 			<Header />
 			<h1 className="title">Robot vs Zombies</h1>
-			<img
-				onClick={() => setIsMuted(!isMuted)}
-				src={isMuted ? Mute : Unmute}
-				alt={isMuted ? 'unmute' : 'mute'}
-			/>
+			<button
+				onClick={toggleMute}
+				aria-label={isMuted ? 'Unmute' : 'Mute'}>
+				<img
+					src={isMuted ? Mute : Unmute}
+					alt={isMuted ? 'Unmute' : 'Mute'}
+				/>
+			</button>
 			<GameBoard isMuted={isMuted} />
 		</div>
 	);
