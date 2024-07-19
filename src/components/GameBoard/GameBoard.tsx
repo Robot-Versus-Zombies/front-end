@@ -1,15 +1,17 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Tile from '../Tile';
 import Player from '../Player';
 import Inventory from '../Inventory';
+import { useAudioMuteToggle } from '../../hooks/useAudioMuteToggle';
+import { Directions } from '../../gameLogic/helpers/directions';
 
-import { Directions } from '../../utils/directions';
-import { createBuilding, IBuilding } from '../../utils/createBuilding';
-import { boardHeight, boardWidth, buildings } from '../../utils/config';
-import { randomlyPlace, createBoard, IBoard } from '../../utils/createBoard';
-import { BuildingTile, GrassTile, TileClass } from '../../utils/tileClass';
-import { placeKey } from '../../utils/placeItems';
+import { usePopulateBoard } from '../../gameLogic/game/usePopulateBoard';
+import { boardHeight, boardWidth } from '../../gameLogic/board/helpers/config';
+import { IBoard } from '../../gameLogic/board/helpers/createBoard';
+import {
+	BuildingTile,
+	TileClass,
+} from '../../gameLogic/board/helpers/tileClass';
 
 type Props = {
 	isMuted: boolean;
@@ -45,27 +47,11 @@ const GameBoard = ({ isMuted }: Props) => {
 		),
 	);
 
-	const populateBoard = useCallback(() => {
-		const tempBoard: GrassTile[][] = [];
-		setBoard(createBoard(tempBoard));
-		// populating board
-
-		buildings.forEach((building: IBuilding) => {
-			createBuilding({ tempBoard, building });
-		});
-		// place player
-		const [xLoc, yLoc] = randomlyPlace({
-			tempBoard,
-		});
-
-		setPlayerPosition({ x: xLoc, y: yLoc });
-
-		tempBoard[yLoc][xLoc] instanceof BuildingTile
-			? setIsInside(true)
-			: setIsInside(false);
-
-		placeKey({ xLoc, yLoc, tempBoard });
-	}, [createBuilding, createBoard, randomlyPlace]);
+	const populateBoard = usePopulateBoard({
+		setBoard,
+		setPlayerPosition,
+		setIsInside,
+	});
 
 	const keyDown = useCallback(
 		(event: { key: string }) => {
@@ -202,17 +188,10 @@ const GameBoard = ({ isMuted }: Props) => {
 		}
 	}, [isInside]);
 
-	useEffect(() => {
-		if (isMuted) {
-			walkAudio.current.volume = 0;
-			whoops.current.volume = 0;
-			beepBoop.current.volume = 0;
-		} else {
-			walkAudio.current.volume = 1;
-			whoops.current.volume = 1;
-			beepBoop.current.volume = 1;
-		}
-	}, [isMuted]);
+	useAudioMuteToggle({
+		isMuted,
+		audioElements: [walkAudio, whoops, beepBoop],
+	});
 
 	return (
 		<>
