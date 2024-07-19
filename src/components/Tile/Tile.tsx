@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react';
-import { coinFlip } from '../../gameLogic/helpers/coinFlip';
+
 import {
-	WallTileOrientationEnum,
 	TileTypeEnum,
+	WallTileOrientationEnum,
 } from '../../gameLogic/board/helpers/tileClass';
+import { coinFlip } from '../../gameLogic/helpers/coinFlip';
 
 type Props = {
 	tileData: {

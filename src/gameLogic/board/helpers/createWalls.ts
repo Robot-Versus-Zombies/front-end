@@ -1,4 +1,4 @@
-import { WallTile, WallTileOrientationEnum, TileTypeEnum } from './tileClass';
+import { TileTypeEnum, WallTile, WallTileOrientationEnum } from './tileClass';
 
 interface CreateWallsParams {
 	tempBoard: WallTile[][];
