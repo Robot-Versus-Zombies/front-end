@@ -1,16 +1,17 @@
 import { useCallback } from 'react';
+
+import { placeKey } from '../Items/helpers/placeItems';
 import {
+	IBoard,
 	createBoard,
 	randomlyPlace,
-	IBoard,
 } from '../board/helpers/createBoard';
 import {
-	createBuilding,
-	buildings,
 	IBuilding,
+	buildings,
+	createBuilding,
 } from '../board/helpers/createBuilding';
-import { placeKey } from '../Items/helpers/placeItems';
-import { GrassTile, BuildingTile } from '../board/helpers/tileClass';
+import { BuildingTile, GrassTile } from '../board/helpers/tileClass';
 
 // Define the hook's parameters and return type if needed
 type UsePopulateBoardParams = {

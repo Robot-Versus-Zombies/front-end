@@ -1,7 +1,7 @@
-import { boardHeight, boardWidth, WALKWAY_SIZE } from './config';
-import { BuildingTile, DoorTile, TileTypeEnum } from './tileClass';
-import { createWalls } from './createWalls';
+import { WALKWAY_SIZE, boardHeight, boardWidth } from './config';
 import { boardHasConflict } from './createBoard';
+import { createWalls } from './createWalls';
+import { BuildingTile, DoorTile, TileTypeEnum } from './tileClass';
 
 interface ILotSize {
 	width: number;
