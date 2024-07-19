@@ -1,28 +1,18 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Tile from '../Tile';
 import Player from '../Player';
 import Inventory from '../Inventory';
 import { useAudioMuteToggle } from '../../hooks/useAudioMuteToggle';
 import { Directions } from '../../gameLogic/helpers/directions';
-import {
-	createBuilding,
-	IBuilding,
-} from '../../gameLogic/board/helpers/createBuilding';
+
 import { usePopulateBoard } from '../../gameLogic/game/usePopulateBoard';
 import { boardHeight, boardWidth } from '../../gameLogic/board/helpers/config';
-import {
-	randomlyPlace,
-	createBoard,
-	IBoard,
-} from '../../gameLogic/board/helpers/createBoard';
+import { IBoard } from '../../gameLogic/board/helpers/createBoard';
 import {
 	BuildingTile,
-	GrassTile,
 	TileClass,
 } from '../../gameLogic/board/helpers/tileClass';
-import { placeKey } from '../../gameLogic/Items/helpers/placeItems';
-import { buildings } from '../../gameLogic/board/helpers/createBuilding';
+
 type Props = {
 	isMuted: boolean;
 };
