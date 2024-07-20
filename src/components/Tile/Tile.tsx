@@ -3,6 +3,7 @@ import { coinFlip } from '../../gameLogic/helpers/coinFlip';
 import {
 	WallTileOrientationEnum,
 	TileTypeEnum,
+	RoofTileOrientationEnum,
 } from '../../gameLogic/board/helpers/tileClass';
 
 type Props = {
@@ -11,6 +12,7 @@ type Props = {
 		wallType?: typeof WallTileOrientationEnum;
 		item?: any;
 		isInside: boolean;
+		roofType?: typeof RoofTileOrientationEnum;
 	};
 };
 
@@ -28,7 +30,7 @@ const Tile = ({ tileData }: Props) => {
 			case TileTypeEnum.BUILDING:
 				tileData.isInside
 					? (cssClasses += 'floor')
-					: (cssClasses += 'roof');
+					: (cssClasses += 'roof' + ' ' + tileData.roofType);
 				break;
 			case TileTypeEnum.DOOR:
 				cssClasses += TileTypeEnum.DOOR;

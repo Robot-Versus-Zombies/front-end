@@ -5,6 +5,7 @@ interface TileProps {
 	type: TileTypeEnum;
 	item?: null | ItemProps;
 	wallType?: WallTileOrientationEnum;
+	roofType?: RoofTileOrientationEnum;
 }
 
 // Define a more specific type for items that can be on a GrassTile
@@ -27,12 +28,12 @@ export enum WallTileOrientationEnum {
 }
 
 export enum RoofTileOrientationEnum {
-	STRAIGHT_VERTICAL = 'straight vertical',
-	STRAIGHT_HORIZONTAL = 'straight horizontal',
-	TOP_LEFT = 'corner top-left',
-	TOP_RIGHT = 'corner top-right',
-	BOTTOM_LEFT = 'corner bottom-left',
-	BOTTOM_RIGHT = 'corner bottom-right',
+	TOP_LEFT = 'top-left',
+	TOP_RIGHT = 'top-right',
+	BOTTOM_LEFT = 'bottom-left',
+	BOTTOM_RIGHT = 'bottom-right',
+	BOTTOM_MIDDLE = 'bottom-middle',
+	TOP_MIDDLE = 'top-middle',
 	MIDDLE = 'middle',
 }
 
@@ -68,11 +69,5 @@ export class BuildingTile extends TileClass {
 export class DoorTile extends TileClass {
 	constructor(props: TileProps) {
 		super({ ...props, type: TileTypeEnum.DOOR });
-	}
-}
-
-export class RoofTile extends TileClass {
-	constructor(props: TileProps) {
-		super({ ...props, type: TileTypeEnum.ROOF });
 	}
 }
