@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import Tile from '../Tile';
-import Player from '../Player';
-import Inventory from '../Inventory';
-import { useAudioMuteToggle } from '../../hooks/useAudioMuteToggle';
-import { Directions } from '../../gameLogic/helpers/directions';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { usePopulateBoard } from '../../gameLogic/game/usePopulateBoard';
 import { boardHeight, boardWidth } from '../../gameLogic/board/helpers/config';
 import { IBoard } from '../../gameLogic/board/helpers/createBoard';
 import {
 	BuildingTile,
 	TileClass,
 } from '../../gameLogic/board/helpers/tileClass';
+import { usePopulateBoard } from '../../gameLogic/game/usePopulateBoard';
+import { Directions } from '../../gameLogic/helpers/directions';
+import { useAudioMuteToggle } from '../../hooks/useAudioMuteToggle';
+import Inventory from '../Inventory';
+import Player from '../Player';
+import Tile from '../Tile';
 
 type Props = {
 	isMuted: boolean;

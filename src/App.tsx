@@ -1,8 +1,11 @@
 import React from 'react';
+
+import './SCSS/main.scss';
+import GameBoard from './components/GameBoard';
 import Header from './components/Header';
 import ToggleButton from './components/ToggleMuteButton';
-import './SCSS/main.scss';
-import GameBoard from './components/GameBoard'; // Assuming GameBoard is imported correctly
+
+// Assuming GameBoard is imported correctly
 
 function App() {
 	const [isMuted, setIsMuted] = React.useState<boolean>(true);

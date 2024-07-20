@@ -1,4 +1,5 @@
 import { ItemProps } from '../../Items/helpers/itemClass';
+
 // Define TileProps with specific properties expected in all tiles
 interface TileProps {
 	impassable?: boolean;
