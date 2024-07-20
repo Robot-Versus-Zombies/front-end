@@ -14,6 +14,7 @@ export enum TileTypeEnum {
 	BUILDING = 'building',
 	GRASS = 'grass',
 	DOOR = 'door',
+	ROOF = 'roof',
 }
 
 export enum WallTileOrientationEnum {
@@ -23,6 +24,16 @@ export enum WallTileOrientationEnum {
 	TOP_RIGHT = 'corner top-right',
 	BOTTOM_LEFT = 'corner bottom-left',
 	BOTTOM_RIGHT = 'corner bottom-right',
+}
+
+export enum RoofTileOrientationEnum {
+	STRAIGHT_VERTICAL = 'straight vertical',
+	STRAIGHT_HORIZONTAL = 'straight horizontal',
+	TOP_LEFT = 'corner top-left',
+	TOP_RIGHT = 'corner top-right',
+	BOTTOM_LEFT = 'corner bottom-left',
+	BOTTOM_RIGHT = 'corner bottom-right',
+	MIDDLE = 'middle',
 }
 
 export class TileClass {
@@ -57,5 +68,11 @@ export class BuildingTile extends TileClass {
 export class DoorTile extends TileClass {
 	constructor(props: TileProps) {
 		super({ ...props, type: TileTypeEnum.DOOR });
+	}
+}
+
+export class RoofTile extends TileClass {
+	constructor(props: TileProps) {
+		super({ ...props, type: TileTypeEnum.ROOF });
 	}
 }

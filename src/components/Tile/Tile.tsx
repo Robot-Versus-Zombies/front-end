@@ -10,6 +10,7 @@ type Props = {
 		type: any;
 		wallType?: typeof WallTileOrientationEnum;
 		item?: any;
+		isInside: boolean;
 	};
 };
 
@@ -25,7 +26,9 @@ const Tile = ({ tileData }: Props) => {
 				cssClasses += TileTypeEnum.WALL + ' ' + tileData.wallType;
 				break;
 			case TileTypeEnum.BUILDING:
-				cssClasses += 'floor';
+				tileData.isInside
+					? (cssClasses += 'floor')
+					: (cssClasses += 'roof');
 				break;
 			case TileTypeEnum.DOOR:
 				cssClasses += TileTypeEnum.DOOR;
