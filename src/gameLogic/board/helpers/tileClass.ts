@@ -18,13 +18,25 @@ export enum TileTypeEnum {
 	ROOF = 'roof',
 }
 
-export enum WallTileOrientationEnum {
+export enum OuterWallTileOrientationEnum {
 	STRAIGHT_VERTICAL = 'straight vertical',
 	STRAIGHT_HORIZONTAL = 'straight horizontal',
 	TOP_LEFT = 'corner top-left',
 	TOP_RIGHT = 'corner top-right',
 	BOTTOM_LEFT = 'corner bottom-left',
 	BOTTOM_RIGHT = 'corner bottom-right',
+}
+
+export enum WallTileOrientationEnum {
+	TOP_LEFT = 'corner top-left',
+	TOP_RIGHT = 'corner top-right',
+	BOTTOM_LEFT = 'corner bottom-left',
+	BOTTOM_RIGHT = 'corner bottom-right',
+	BOTTOM_MIDDLE = 'bottom-middle',
+	TOP_MIDDLE = 'top-middle',
+	MIDDLE = 'middle',
+	LEFT_MIDDLE = 'left-middle',
+	RIGHT_MIDDLE = 'right-middle',
 }
 
 export enum RoofTileOrientationEnum {

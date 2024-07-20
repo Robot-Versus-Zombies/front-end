@@ -6,25 +6,32 @@
 	background-size: cover;
 
 	&.wall {
-		&.straight {
-			background-image: url('../images/RobotZombieWallStraight.png') !important;
-
-			&.horizontal {
-				transform: rotate(90deg);
-			}
+		&.bottom-left {
+			background-image: url('../images/roof-bottom-left.png');
 		}
-		&.corner {
-			background-image: url('../images/RobotZombieWallCorner.png') !important;
+		&.bottom-right {
+			background-image: url('../images/roof-bottom-right.png');
+		}
+		&.top-left {
+			background-image: url('../images/roof-top-left.png');
+		}
+		&.top-right {
+			background-image: url('../images/roof-top-right.png');
+		}
+		&.left-middle {
+			background-image: url('../images/roof-bottom-middle.png');
+			transform: rotate(90deg);
+		}
+		&.right-middle {
+			background-image: url('../images/roof-bottom-middle.png');
+			transform: rotate(-90deg);
+		}
+		&.bottom-middle {
+			background-image: url('../images/roof-bottom-middle.png');
+		}
 
-			&.bottom-left {
-				transform: rotate(90deg);
-			}
-			&.top-right {
-				transform: rotate(-90deg);
-			}
-			&.top-left {
-				transform: rotate(180deg);
-			}
+		&.top-middle {
+			background-image: url('../images/roof-top-middle.png');
 		}
 	}
 	&.floor {
@@ -66,10 +73,10 @@
 	}
 
 	&.grass {
-		background-image: url('../images/RobotZombieGrass_Dark.png');
+		background-image: url('../images/RobotZombieGrass.png');
 	}
 	&.grass-flower {
-		background-image: url('../images/RobotZombieGrass_DarkFlower.png');
+		background-image: url('../images/RobotZombieGrassFlower.png');
 	}
 	&.door {
 		background-image: url('../images/RobotZombieDoor.png');
