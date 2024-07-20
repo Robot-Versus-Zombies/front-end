@@ -35,6 +35,8 @@ export enum RoofTileOrientationEnum {
 	BOTTOM_MIDDLE = 'bottom-middle',
 	TOP_MIDDLE = 'top-middle',
 	MIDDLE = 'middle',
+	LEFT_MIDDLE = 'left-middle',
+	RIGHT_MIDDLE = 'right-middle',
 }
 
 export class TileClass {
@@ -56,13 +58,15 @@ export class GrassTile extends TileClass {
 	item?: ItemProps; // Now optionally expects a ItemProps object
 	constructor(props: TileProps & { item?: ItemProps }) {
 		super({ ...props, impassable: false, type: TileTypeEnum.GRASS });
-		this.item = props.item;
+		this.item = props.item ?? undefined;
 	}
 }
 
 export class BuildingTile extends TileClass {
-	constructor(props: TileProps) {
+	roofType: RoofTileOrientationEnum = RoofTileOrientationEnum.MIDDLE; // Add the 'roofType' property with default value
+	constructor(props: TileProps & { roofType?: RoofTileOrientationEnum }) {
 		super({ ...props, impassable: false, type: TileTypeEnum.BUILDING });
+		this.roofType = props.roofType ?? RoofTileOrientationEnum.MIDDLE; // Set the roofType to the provided value or the default value
 	}
 }
 

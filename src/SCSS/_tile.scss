@@ -48,11 +48,20 @@
 		&.bottom-middle {
 			background-image: url('../images/roof-bottom-middle.png');
 		}
+
 		&.top-middle {
 			background-image: url('../images/roof-top-middle.png');
 		}
 		&.middle {
 			background-image: url('../images/roof-middle.png');
+		}
+		&.left-middle {
+			background-image: url('../images/roof-bottom-middle.png');
+			transform: rotate(90deg);
+		}
+		&.right-middle {
+			background-image: url('../images/roof-bottom-middle.png');
+			transform: rotate(-90deg);
 		}
 	}
 
