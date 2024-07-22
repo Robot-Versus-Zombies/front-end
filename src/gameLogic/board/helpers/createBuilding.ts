@@ -1,7 +1,7 @@
-import { WALKWAY_SIZE, boardHeight, boardWidth } from './config';
-import { boardHasConflict } from './createBoard';
-import { createWalls } from './createWalls';
+import { boardHeight, boardWidth, WALKWAY_SIZE } from './config';
 import { BuildingTile, DoorTile, TileTypeEnum } from './tileClass';
+import { createWalls, createRoofTiles } from './createWalls';
+import { boardHasConflict } from './createBoard';
 
 interface ILotSize {
 	width: number;
@@ -104,6 +104,14 @@ export const createBuilding = ({
 		maxXIndex: xLoc + building.lotSize.width - walkWaySize,
 		minYIndex: yLoc + walkWaySize,
 		maxYIndex: yLoc + building.lotSize.height - walkWaySize,
+	});
+
+	tempBoard = createRoofTiles({
+		tempBoard: tempBoard,
+		minXIndex: xLoc + walkWaySize + 1,
+		maxXIndex: xLoc + building.lotSize.width - walkWaySize - 1,
+		minYIndex: yLoc + walkWaySize + 1,
+		maxYIndex: yLoc + building.lotSize.height - walkWaySize - 1,
 	});
 
 	// Place the door if specified
