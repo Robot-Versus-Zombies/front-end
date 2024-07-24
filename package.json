@@ -20,7 +20,7 @@
 	},
 	"scripts": {
 		"start": "vite",
-		"build": "tsc && vite build",
+		"build": "tsc && vite build --emptyOutDir",
 		"preview": "vite preview"
 	},
 	"eslintConfig": {
