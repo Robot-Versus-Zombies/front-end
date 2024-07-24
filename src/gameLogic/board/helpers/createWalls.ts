@@ -1,10 +1,9 @@
 import {
 	WallTile,
 	WallTileOrientationEnum,
-	OuterWallTileOrientationEnum,
 	TileTypeEnum,
-	RoofTileOrientationEnum,
 	BuildingTile,
+	DoorTile,
 } from './tileClass';
 
 interface CreateWallsParams {
@@ -16,7 +15,7 @@ interface CreateWallsParams {
 }
 
 interface CreateRoofTilesParams {
-	buildingTiles: BuildingTile[][];
+	tempBoard: (BuildingTile | DoorTile)[][];
 	minXIndex: number;
 	maxXIndex: number;
 	minYIndex: number;
@@ -30,49 +29,50 @@ export const createWalls = ({
 	minYIndex,
 	maxYIndex,
 }: CreateWallsParams): WallTile[][] => {
-	let wallType = WallTileOrientationEnum.LEFT_MIDDLE;
+	const wallOrientation = WallTileOrientationEnum.LEFT_MIDDLE;
 	for (let i = minYIndex; i <= maxYIndex; i++) {
 		tempBoard[i][minXIndex] = new WallTile({
-			wallType,
+			wallOrientation,
 			type: TileTypeEnum.WALL,
 		});
 	}
-	wallType = WallTileOrientationEnum.RIGHT_MIDDLE;
+
 	for (let i = minYIndex; i <= maxYIndex; i++) {
 		tempBoard[i][maxXIndex] = new WallTile({
-			wallType,
+			wallOrientation: WallTileOrientationEnum.RIGHT_MIDDLE,
 			type: TileTypeEnum.WALL,
 		});
 	}
-	wallType = WallTileOrientationEnum.TOP_MIDDLE;
+
 	for (let j = minXIndex; j <= maxXIndex; j++) {
 		tempBoard[minYIndex][j] = new WallTile({
-			wallType,
+			wallOrientation: WallTileOrientationEnum.TOP_MIDDLE,
 			type: TileTypeEnum.WALL,
 		});
 	}
-	wallType = WallTileOrientationEnum.BOTTOM_MIDDLE;
+
 	for (let j = minXIndex; j <= maxXIndex; j++) {
 		tempBoard[maxYIndex][j] = new WallTile({
-			wallType,
+			wallOrientation: WallTileOrientationEnum.BOTTOM_MIDDLE,
 			type: TileTypeEnum.WALL,
 		});
 	}
-	// Sets the corners to the proper wallTypes
+
+	// Sets the corners to the proper wallOrientations
 	tempBoard[minYIndex][minXIndex] = new WallTile({
-		wallType: WallTileOrientationEnum.TOP_LEFT,
+		wallOrientation: WallTileOrientationEnum.TOP_LEFT,
 		type: TileTypeEnum.WALL,
 	});
 	tempBoard[minYIndex][maxXIndex] = new WallTile({
-		wallType: WallTileOrientationEnum.TOP_RIGHT,
+		wallOrientation: WallTileOrientationEnum.TOP_RIGHT,
 		type: TileTypeEnum.WALL,
 	});
 	tempBoard[maxYIndex][minXIndex] = new WallTile({
-		wallType: WallTileOrientationEnum.BOTTOM_LEFT,
+		wallOrientation: WallTileOrientationEnum.BOTTOM_LEFT,
 		type: TileTypeEnum.WALL,
 	});
 	tempBoard[maxYIndex][maxXIndex] = new WallTile({
-		wallType: WallTileOrientationEnum.BOTTOM_RIGHT,
+		wallOrientation: WallTileOrientationEnum.BOTTOM_RIGHT,
 		type: TileTypeEnum.WALL,
 	});
 
@@ -85,36 +85,13 @@ export const createRoofTiles = ({
 	maxXIndex,
 	minYIndex,
 	maxYIndex,
-}: CreateWallsParams): WallTile[][] => {
-	let roofType = RoofTileOrientationEnum.MIDDLE;
+}: CreateRoofTilesParams): (BuildingTile | DoorTile)[][] => {
 	for (let i = minYIndex; i <= maxYIndex; i++) {
-		tempBoard[i][minXIndex] = new BuildingTile({
-			roofType,
-			type: TileTypeEnum.BUILDING,
-		});
-	}
-
-	roofType = RoofTileOrientationEnum.MIDDLE;
-	for (let i = minYIndex; i <= maxYIndex; i++) {
-		tempBoard[i][maxXIndex] = new BuildingTile({
-			roofType,
-			type: TileTypeEnum.BUILDING,
-		});
-	}
-
-	roofType = RoofTileOrientationEnum.MIDDLE;
-	for (let j = minXIndex; j <= maxXIndex; j++) {
-		tempBoard[minYIndex][j] = new BuildingTile({
-			roofType,
-			type: TileTypeEnum.BUILDING,
-		});
-	}
-	roofType = RoofTileOrientationEnum.MIDDLE;
-	for (let j = minXIndex; j <= maxXIndex; j++) {
-		tempBoard[maxYIndex][j] = new BuildingTile({
-			roofType,
-			type: TileTypeEnum.BUILDING,
-		});
+		for (let j = minXIndex; j <= maxXIndex; j++) {
+			tempBoard[i][j] = new BuildingTile({
+				type: TileTypeEnum.BUILDING,
+			});
+		}
 	}
 
 	return tempBoard;
