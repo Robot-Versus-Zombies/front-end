@@ -2,8 +2,8 @@
 	"compilerOptions": {
 		"target": "ESNext",
 		"lib": ["DOM", "DOM.Iterable", "ESNext"],
-		"types": [],
-		"allowJs": false,
+		"types": ["node"],
+		"allowJs": true,
 		"skipLibCheck": false,
 		"esModuleInterop": false,
 		"allowSyntheticDefaultImports": true,
