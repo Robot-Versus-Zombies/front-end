@@ -39,37 +39,7 @@
 	}
 
 	&.roof {
-		&.top-left {
-			background-image: url('../images/roof-top-left.png');
-		}
-
-		&.top-right {
-			background-image: url('../images/roof-top-right.png');
-		}
-		&.bottom-left {
-			background-image: url('../images/roof-bottom-left.png');
-		}
-		&.bottom-right {
-			background-image: url('../images/roof-bottom-right.png');
-		}
-		&.bottom-middle {
-			background-image: url('../images/roof-bottom-middle.png');
-		}
-
-		&.top-middle {
-			background-image: url('../images/roof-top-middle.png');
-		}
-		&.middle {
-			background-image: url('../images/roof-middle.png');
-		}
-		&.left-middle {
-			background-image: url('../images/roof-bottom-middle.png');
-			transform: rotate(90deg);
-		}
-		&.right-middle {
-			background-image: url('../images/roof-bottom-middle.png');
-			transform: rotate(-90deg);
-		}
+		background-image: url('../images/roof-middle.png');
 	}
 
 	&.grass {
