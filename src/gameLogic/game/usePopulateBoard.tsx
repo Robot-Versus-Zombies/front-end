@@ -19,13 +19,11 @@ type UsePopulateBoardParams = {
 	setPlayerPosition: React.Dispatch<
 		React.SetStateAction<{ x: number; y: number }>
 	>;
-	setIsInside: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const usePopulateBoard = ({
 	setBoard,
 	setPlayerPosition,
-	setIsInside,
 }: UsePopulateBoardParams) => {
 	return useCallback(() => {
 		const tempBoard: GrassTile[][] = [];
@@ -40,10 +38,6 @@ export const usePopulateBoard = ({
 
 		setPlayerPosition({ x: xLoc, y: yLoc });
 
-		tempBoard[yLoc][xLoc] instanceof BuildingTile
-			? setIsInside(true)
-			: setIsInside(false);
-
 		placeKey({ xLoc, yLoc, tempBoard });
-	}, [setBoard, setPlayerPosition, setIsInside]);
+	}, [setBoard, setPlayerPosition]);
 };

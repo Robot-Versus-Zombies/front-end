@@ -13,7 +13,7 @@ interface CreateWallsParams {
 	maxXIndex: number;
 	minYIndex: number;
 	maxYIndex: number;
-	wallType?: WallTypeEnum;
+	wallType: WallTypeEnum;
 }
 
 interface CreateRoofTilesParams {
@@ -22,6 +22,7 @@ interface CreateRoofTilesParams {
 	maxXIndex: number;
 	minYIndex: number;
 	maxYIndex: number;
+	buildingID: string;
 }
 
 export const createWalls = ({
@@ -105,6 +106,7 @@ export const createRoofTiles = ({
 	maxXIndex,
 	minYIndex,
 	maxYIndex,
+	buildingID,
 }: CreateRoofTilesParams): (BuildingTile | DoorTile)[][] => {
 	// Loop through the rows
 	for (let i = minYIndex; i <= maxYIndex; i++) {
@@ -113,6 +115,7 @@ export const createRoofTiles = ({
 			// Create a new BuildingTile for each position
 			tempBoard[i][j] = new BuildingTile({
 				type: TileTypeEnum.BUILDING,
+				buildingID,
 			});
 		}
 	}
