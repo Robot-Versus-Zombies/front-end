@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import { isInside } from '../../gameLogic/board/helpers/checkIfInside';
 import { boardHeight, boardWidth } from '../../gameLogic/board/helpers/config';
 import { IBoard } from '../../gameLogic/board/helpers/createBoard';
 import {
@@ -28,7 +29,7 @@ const GameBoard = ({ isMuted }: Props) => {
 		x: 0,
 		y: 0,
 	});
-	const [isInside, setIsInside] = useState<boolean>(false);
+
 	const [items, setItems] = useState<any>([]);
 	const [direction, setDirection] = useState<Directions>(Directions.South);
 	const walkAudio = useRef(
@@ -50,7 +51,6 @@ const GameBoard = ({ isMuted }: Props) => {
 	const populateBoard = usePopulateBoard({
 		setBoard,
 		setPlayerPosition,
-		setIsInside,
 	});
 	console.log(board, 'board');
 	const keyDown = useCallback(
@@ -141,19 +141,19 @@ const GameBoard = ({ isMuted }: Props) => {
 		let playerX = playerPosition.x;
 		let playerY = playerPosition.y;
 
-		// checking to see if player is about to enter a building
-		if (
-			board &&
-			board[playerY][playerX] instanceof BuildingTile &&
-			!isInside
-		) {
-			setIsInside(true);
-		} else if (
-			!(board && board[playerY][playerX] instanceof BuildingTile) &&
-			isInside
-		) {
-			setIsInside(false);
-		}
+		// // checking to see if player is about to enter a building
+		// if (
+		// 	board &&
+		// 	board[playerY][playerX] instanceof BuildingTile &&
+		// 	!isInside
+		// ) {
+		// 	setIsInside(true);
+		// } else if (
+		// 	!(board && board[playerY][playerX] instanceof BuildingTile) &&
+		// 	isInside
+		// ) {
+		// 	setIsInside(false);
+		// }
 
 		// check for items
 		if (board && board[playerY][playerX]?.item) {
@@ -178,15 +178,7 @@ const GameBoard = ({ isMuted }: Props) => {
 		scrollY = Math.min(scrollY, 42 * boardHeight - 1000);
 
 		boardEl?.scroll(scrollX, scrollY);
-	}, [playerPosition, keyDown, isInside, board, items]);
-
-	useEffect(() => {
-		if (isInside) {
-			beepBoop.current.play();
-		} else {
-			beepBoop.current.pause();
-		}
-	}, [isInside]);
+	}, [playerPosition, keyDown, board, items]);
 
 	useAudioMuteToggle({
 		isMuted,
@@ -211,7 +203,15 @@ const GameBoard = ({ isMuted }: Props) => {
 										key={JSON.stringify({ indexX, indexY })}
 										tileData={{
 											...tile,
-											isInside,
+											isInside: isInside({
+												tileWherePlayerIs: board[
+													playerPosition.y
+												][
+													playerPosition.x
+												] as BuildingTile,
+												tileBeingCreated:
+													tile as BuildingTile,
+											}),
 										}}
 									/>
 								))}
