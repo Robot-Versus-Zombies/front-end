@@ -4,6 +4,7 @@ import {
 	TileTypeEnum,
 	WallTile,
 	WallTileOrientationEnum,
+	WallTypeEnum,
 } from './tileClass';
 
 interface CreateWallsParams {
@@ -12,6 +13,7 @@ interface CreateWallsParams {
 	maxXIndex: number;
 	minYIndex: number;
 	maxYIndex: number;
+	wallType?: WallTypeEnum;
 }
 
 interface CreateRoofTilesParams {
@@ -28,6 +30,7 @@ export const createWalls = ({
 	maxXIndex,
 	minYIndex,
 	maxYIndex,
+	wallType,
 }: CreateWallsParams): WallTile[][] => {
 	const wallOrientation = WallTileOrientationEnum.LEFT_MIDDLE;
 	// Set the left walls
@@ -35,6 +38,7 @@ export const createWalls = ({
 		tempBoard[i][minXIndex] = new WallTile({
 			wallOrientation,
 			type: TileTypeEnum.WALL,
+			wallType,
 		});
 	}
 
@@ -43,6 +47,7 @@ export const createWalls = ({
 		tempBoard[i][maxXIndex] = new WallTile({
 			wallOrientation: WallTileOrientationEnum.RIGHT_MIDDLE,
 			type: TileTypeEnum.WALL,
+			wallType,
 		});
 	}
 
@@ -51,6 +56,7 @@ export const createWalls = ({
 		tempBoard[minYIndex][j] = new WallTile({
 			wallOrientation: WallTileOrientationEnum.TOP_MIDDLE,
 			type: TileTypeEnum.WALL,
+			wallType,
 		});
 	}
 	// Set the bottom walls
@@ -58,6 +64,7 @@ export const createWalls = ({
 		tempBoard[maxYIndex][j] = new WallTile({
 			wallOrientation: WallTileOrientationEnum.BOTTOM_MIDDLE,
 			type: TileTypeEnum.WALL,
+			wallType,
 		});
 	}
 
@@ -65,24 +72,28 @@ export const createWalls = ({
 	tempBoard[minYIndex][minXIndex] = new WallTile({
 		wallOrientation: WallTileOrientationEnum.TOP_LEFT,
 		type: TileTypeEnum.WALL,
+		wallType,
 	});
 
 	// Set the top right corner wall
 	tempBoard[minYIndex][maxXIndex] = new WallTile({
 		wallOrientation: WallTileOrientationEnum.TOP_RIGHT,
 		type: TileTypeEnum.WALL,
+		wallType,
 	});
 
 	// Set the bottom left corner wall
 	tempBoard[maxYIndex][minXIndex] = new WallTile({
 		wallOrientation: WallTileOrientationEnum.BOTTOM_LEFT,
 		type: TileTypeEnum.WALL,
+		wallType,
 	});
 
 	// Set the bottom right corner wall
 	tempBoard[maxYIndex][maxXIndex] = new WallTile({
 		wallOrientation: WallTileOrientationEnum.BOTTOM_RIGHT,
 		type: TileTypeEnum.WALL,
+		wallType,
 	});
 
 	return tempBoard;

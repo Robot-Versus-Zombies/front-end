@@ -1,7 +1,12 @@
-import { boardHeight, boardWidth, WALKWAY_SIZE } from './config';
-import { BuildingTile, DoorTile, TileTypeEnum } from './tileClass';
-import { createWalls, createRoofTiles } from './createWalls';
+import { WALKWAY_SIZE, boardHeight, boardWidth } from './config';
 import { boardHasConflict } from './createBoard';
+import { createRoofTiles, createWalls } from './createWalls';
+import {
+	BuildingTile,
+	DoorTile,
+	TileTypeEnum,
+	WallTypeEnum,
+} from './tileClass';
 
 interface ILotSize {
 	width: number;
@@ -104,6 +109,7 @@ export const createBuilding = ({
 		maxXIndex: xLoc + building.lotSize.width - walkWaySize,
 		minYIndex: yLoc + walkWaySize,
 		maxYIndex: yLoc + building.lotSize.height - walkWaySize,
+		wallType: WallTypeEnum.BUILDING,
 	});
 
 	tempBoard = createRoofTiles({
