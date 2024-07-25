@@ -13,7 +13,7 @@ type Props = {
 		wallOrientation?: typeof WallTileOrientationEnum;
 		item?: any;
 		isInside: boolean;
-		wallType: typeof WallTypeEnum;
+		wallType?: typeof WallTypeEnum;
 	};
 };
 
