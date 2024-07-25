@@ -5,10 +5,16 @@ interface TileProps {
 	impassable?: boolean;
 	type: TileTypeEnum;
 	item?: null | ItemProps;
-	wallOrientation?: WallTileOrientationEnum;
-	wallType?: WallTypeEnum;
 }
 
+interface BuildingTileProps extends TileProps {
+	buildingID: string;
+}
+
+interface WallTileProps extends TileProps {
+	wallOrientation: WallTileOrientationEnum;
+	wallType: WallTypeEnum;
+}
 // Define a more specific type for items that can be on a GrassTile
 
 export enum TileTypeEnum {
@@ -55,7 +61,7 @@ export class TileClass {
 }
 
 export class WallTile extends TileClass {
-	constructor(props: TileProps) {
+	constructor(props: WallTileProps) {
 		super({ ...props, impassable: true, type: TileTypeEnum.WALL });
 	}
 }
@@ -69,8 +75,10 @@ export class GrassTile extends TileClass {
 }
 
 export class BuildingTile extends TileClass {
-	constructor(props: TileProps) {
+	buildingID: string; // Add a new property for buildingID
+	constructor(props: BuildingTileProps) {
 		super({ ...props, impassable: false, type: TileTypeEnum.BUILDING });
+		this.buildingID = props.buildingID;
 	}
 }
 

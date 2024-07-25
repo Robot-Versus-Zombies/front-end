@@ -83,10 +83,11 @@ export const createBuilding = ({
 
 	// Assuming tempBoard is a 2D array representing the game board
 	// and building is an object conforming to the IBuilding interface
-
+	const buildingID = crypto.randomUUID(); // Generate a unique ID for the building
 	const buildingTile = new BuildingTile({
 		impassable: false,
 		type: TileTypeEnum.BUILDING,
+		buildingID,
 	});
 	for (
 		let i = yLoc + walkWaySize;
@@ -118,6 +119,7 @@ export const createBuilding = ({
 		maxXIndex: xLoc + building.lotSize.width - walkWaySize - 1,
 		minYIndex: yLoc + walkWaySize + 1,
 		maxYIndex: yLoc + building.lotSize.height - walkWaySize - 1,
+		buildingID,
 	});
 
 	// Place the door if specified
@@ -135,6 +137,7 @@ export const createBuilding = ({
 				impassable: false,
 				type: TileTypeEnum.DOOR,
 			});
+			console.log(tempBoard[doorY][doorX], 'door');
 		}
 	}
 
