@@ -1,10 +1,12 @@
 import { ItemProps } from '../../Items/helpers/itemClass';
+
 // Define TileProps with specific properties expected in all tiles
 interface TileProps {
 	impassable?: boolean;
 	type: TileTypeEnum;
 	item?: null | ItemProps;
 	wallOrientation?: WallTileOrientationEnum;
+	wallType?: WallTypeEnum;
 }
 
 // Define a more specific type for items that can be on a GrassTile
@@ -15,6 +17,11 @@ export enum TileTypeEnum {
 	GRASS = 'grass',
 	DOOR = 'door',
 	ROOF = 'roof',
+}
+
+export enum WallTypeEnum {
+	BUILDING = 'building',
+	OUTER = 'outer',
 }
 
 export enum OuterWallTileOrientationEnum {

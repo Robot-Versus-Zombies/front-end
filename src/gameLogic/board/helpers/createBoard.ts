@@ -1,6 +1,6 @@
 import { boardHeight, boardWidth } from './config';
 import { createWalls } from './createWalls';
-import { GrassTile, TileClass, TileTypeEnum } from './tileClass';
+import { GrassTile, TileClass, TileTypeEnum, WallTypeEnum } from './tileClass';
 
 // IBoard is an interface for a 2D array of Tile instances
 export type IBoard = TileClass[][];
@@ -54,6 +54,7 @@ export const createBoard = (tempBoard: GrassTile[][]): GrassTile[][] => {
 		maxXIndex: boardWidth - 1,
 		minYIndex: 0,
 		maxYIndex: boardHeight - 1,
+		wallType: WallTypeEnum.OUTER,
 	});
 
 	return tempBoard;
