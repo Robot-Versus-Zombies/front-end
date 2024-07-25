@@ -209,7 +209,10 @@ const GameBoard = ({ isMuted }: Props) => {
 								{row.map((tile, indexX) => (
 									<Tile
 										key={JSON.stringify({ indexX, indexY })}
-										tileData={{ ...tile, isInside }}
+										tileData={{
+											...tile,
+											isInside,
+										}}
 									/>
 								))}
 							</div>
