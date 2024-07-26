@@ -9,6 +9,7 @@ import {
 } from '../../gameLogic/board/helpers/tileClass';
 import { usePopulateBoard } from '../../gameLogic/game/usePopulateBoard';
 import { Directions } from '../../gameLogic/helpers/directions';
+import { IPlayerPosition } from '../../gameLogic/player/usePlayerMovement';
 import { useAudioMuteToggle } from '../../hooks/useAudioMuteToggle';
 import Inventory from '../Inventory';
 import Player from '../Player';
@@ -17,11 +18,6 @@ import Tile from '../Tile';
 type Props = {
 	isMuted: boolean;
 };
-
-interface IPlayerPosition {
-	x: number;
-	y: number;
-}
 
 const GameBoard = ({ isMuted }: Props) => {
 	const [board, setBoard] = useState<IBoard | null>(null);

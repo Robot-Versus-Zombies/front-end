@@ -30,15 +30,6 @@ export enum WallTypeEnum {
 	OUTER = 'outer',
 }
 
-export enum OuterWallTileOrientationEnum {
-	STRAIGHT_VERTICAL = 'straight vertical',
-	STRAIGHT_HORIZONTAL = 'straight horizontal',
-	TOP_LEFT = 'corner top-left',
-	TOP_RIGHT = 'corner top-right',
-	BOTTOM_LEFT = 'corner bottom-left',
-	BOTTOM_RIGHT = 'corner bottom-right',
-}
-
 export enum WallTileOrientationEnum {
 	TOP_LEFT = 'corner top-left',
 	TOP_RIGHT = 'corner top-right',

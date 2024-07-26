@@ -7,7 +7,7 @@
 	"singleQuote": true,
 	"trailingComma": "all",
 	"bracketSpacing": true,
-	"jsxBracketSameLine": true,
+	"bracketSameLine": true,
 	"importOrder": ["^components/(.*)$", "^[./]"],
 	"importOrderSeparation": true,
 	"importOrderSortSpecifiers": true
