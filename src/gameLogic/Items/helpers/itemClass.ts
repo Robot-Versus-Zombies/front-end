@@ -4,7 +4,7 @@ export interface ItemProps {
 	[key: string]: any; // Ideally, define a more specific type
 }
 
-export class ItemClass {
+class ItemClass {
 	constructor(props: ItemProps) {
 		Object.assign(this, props);
 	}

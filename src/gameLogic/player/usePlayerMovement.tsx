@@ -1,6 +1,8 @@
-import { useCallback, RefObject } from 'react';
-import { Directions } from '../helpers/directions';
+import { RefObject, useCallback } from 'react';
+
 import { IBoard } from '../board/helpers/createBoard';
+import { Directions } from '../helpers/directions';
+
 export interface IPlayerPosition {
 	x: number;
 	y: number;
