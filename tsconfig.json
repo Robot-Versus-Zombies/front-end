@@ -1,11 +1,11 @@
 {
 	"compilerOptions": {
 		"target": "ESNext",
-		"lib": ["DOM", "DOM.Iterable", "ESNext"],
+		"lib": ["DOM", "DOM.Iterable", "ESNext", "dom", "esnext"],
 		"types": ["node", "jest", "@testing-library/jest-dom"],
 		"allowJs": true,
 		"skipLibCheck": false,
-		"esModuleInterop": false,
+		"esModuleInterop": true,
 		"allowSyntheticDefaultImports": true,
 		"strict": true,
 		"forceConsistentCasingInFileNames": true,
@@ -16,5 +16,6 @@
 		"noEmit": true,
 		"jsx": "react"
 	},
-	"include": ["src/**/*", "types/**/*"]
+	"include": ["src/**/*", "types/**/*"],
+	"exclude": ["node_modules"]
 }
