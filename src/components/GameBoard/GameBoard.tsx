@@ -48,7 +48,7 @@ const GameBoard = ({ isMuted }: Props) => {
 		setBoard,
 		setPlayerPosition,
 	});
-	console.log(board, 'board');
+
 	const keyDown = useCallback(
 		(event: { key: string }) => {
 			let x = playerPosition.x;
