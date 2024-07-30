@@ -137,7 +137,6 @@ export const createBuilding = ({
 				impassable: false,
 				type: TileTypeEnum.DOOR,
 			});
-			console.log(tempBoard[doorY][doorX], 'door');
 		}
 	}
 

@@ -2,8 +2,13 @@ import React from 'react';
 
 import Item from '../GameBoard';
 
+interface Item {
+	alt: string;
+	image: string;
+}
+
 type Props = {
-	items: (typeof Item)[];
+	items: Item[];
 };
 
 const Inventory = ({ items }: Props) => {
@@ -11,7 +16,11 @@ const Inventory = ({ items }: Props) => {
 		<div className="inventory">
 			{items.map(({ alt, image }: any, index: number) => (
 				<div key={`${alt}-${index}`} className="inventory-item">
-					<img src={image} alt={alt} />
+					<img
+						src={image}
+						alt={alt}
+						className="inventory-item-image"
+					/>
 				</div>
 			))}
 		</div>
