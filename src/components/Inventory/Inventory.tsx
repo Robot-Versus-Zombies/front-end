@@ -1,20 +1,18 @@
 import React from 'react';
 
-import Item from '../GameBoard';
-
-interface Item {
+interface InventoryItem {
 	alt: string;
 	image: string;
 }
 
 type Props = {
-	items: Item[];
+	items: InventoryItem[];
 };
 
 const Inventory = ({ items }: Props) => {
 	return (
 		<div className="inventory">
-			{items.map(({ alt, image }: any, index: number) => (
+			{items.map(({ alt, image }, index: number) => (
 				<div key={`${alt}-${index}`} className="inventory-item">
 					<img
 						src={image}
