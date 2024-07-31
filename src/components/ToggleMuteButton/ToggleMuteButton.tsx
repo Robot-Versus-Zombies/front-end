@@ -1,4 +1,3 @@
-// components/ToggleButton.tsx
 import React from 'react';
 
 import Mute from '../../images/volume_off-24px.svg';
@@ -10,8 +9,15 @@ interface ToggleButtonProps {
 }
 
 const ToggleButton: React.FC<ToggleButtonProps> = ({ isMuted, toggleMute }) => (
-	<button onClick={toggleMute} aria-label={isMuted ? 'Unmute' : 'Mute'}>
-		<img src={isMuted ? Mute : Unmute} alt={isMuted ? 'Unmute' : 'Mute'} />
+	<button
+		className="button"
+		onClick={toggleMute}
+		aria-label={isMuted ? 'Unmute' : 'Mute'}>
+		<img
+			className="image"
+			src={isMuted ? Mute : Unmute}
+			alt={isMuted ? 'Unmute' : 'Mute'}
+		/>
 	</button>
 );
 
