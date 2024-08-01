@@ -3,14 +3,11 @@
 	height: 1000px;
 	text-align: center;
 	overflow: hidden;
-	margin: 10rem auto;
+	margin: 10rem auto 5rem;
 	.game-board {
 		border: 1px solid black;
 		border-width: 0 1px 1px 0;
 		display: inline-block;
-		// flex-direction: column;
-		// justify-content: center;
-		// align-items: center;
 		position: relative;
 
 		.board-row {
