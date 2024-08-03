@@ -9,16 +9,15 @@ import { coinFlip } from '../../gameLogic/helpers/coinFlip';
 
 type Props = {
 	tileData: {
-		type: any;
-		wallOrientation?: typeof WallTileOrientationEnum;
+		type: TileTypeEnum;
+		wallOrientation?: WallTileOrientationEnum;
 		item?: any;
 		isInside: boolean;
-		wallType?: typeof WallTypeEnum;
+		wallType?: WallTypeEnum;
 	};
 };
 
-const Tile = ({ tileData }: Props) => {
-	// memoizing so we're not reflipping the coin every time the player moves
+const Tile: React.FC<Props> = ({ tileData }) => {
 	const memoizedCoinFlip = useMemo(() => coinFlip(), []);
 
 	const getTileClasses = () => {
@@ -29,17 +28,15 @@ const Tile = ({ tileData }: Props) => {
 				cssClasses += `${TileTypeEnum.WALL} ${tileData.wallType} ${tileData.wallOrientation}`;
 				break;
 			case TileTypeEnum.BUILDING:
-				tileData.isInside
-					? (cssClasses += 'floor')
-					: (cssClasses += 'roof');
+				cssClasses += tileData.isInside ? 'floor' : 'roof';
 				break;
 			case TileTypeEnum.DOOR:
 				cssClasses += TileTypeEnum.DOOR;
 				break;
-			// flipping a coin to decide if a grass tile gets grass art or flower art
 			default:
 				cssClasses += memoizedCoinFlip ? 'grass' : 'grass-flower';
 		}
+
 		return cssClasses;
 	};
 
